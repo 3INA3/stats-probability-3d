@@ -1,18 +1,30 @@
 <div align="center">
 
-# 📊 مرجع جامع آمار و احتمال مهندسی  
-### نسخه سه‌بعدی پیشرفته | Advanced 3D Interactive Edition
+<!-- Waving Header Banner -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8A2BE2,50:00D8FF,100:FF00AA&height=180&section=header&text=Stats%20%26%20Probability%203D&fontSize=38&fontAlignY=42&animation=twinkling&fontColor=ffffff" width="100%"/>
 
-**درس‌نامه گام‌به‌گام + شبیه‌سازهای زنده سه‌بعدی + حل کامل فرمول‌ها با جایگذاری اعداد**
+<br/>
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-View_Online-8b5cf6?style=for-the-badge)](https://YOUR-DEMO-LINK)
+<!-- Pixel Art Coding Room -->
+<img src="https://user-images.githubusercontent.com/74038190/225813708-98b745f2-7d22-48cf-9150-083f1b00d6c9.gif" width="100%"/>
+
+<br/><br/>
+
+<!-- Typing Animation -->
+<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=700&size=26&duration=2800&pause=900&color=8A2BE2,00D8FF,FF00AA,43C6AC&center=true&vCenter=true&width=850&lines=📊+مرجع+جامع+آمار+و+احتمال+مهندسی;🌋+نسخه+سه‌بعدی+پیشرفته;🧪+۲۲+ابزار+تعاملی+زنده;⌨️+کیبورد+ریاضی+هوشمند" alt="Typing SVG" />
+
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-View_Online-8b5cf6?style=for-the-badge)](https://3ina3.github.io/stats-probability-3d/)
 [![Language](https://img.shields.io/badge/زبان-فارسی_RTL-22d3ee?style=for-the-badge)](#)
 [![Three.js](https://img.shields.io/badge/Three.js-3D-f472b6?style=for-the-badge)](#)
 [![Math.js](https://img.shields.io/badge/Math.js-Engine-10b981?style=for-the-badge)](#)
 
 </div>
 
----
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
+
+<br>
 
 ## 🇮🇷 درباره پروژه
 
@@ -25,7 +37,11 @@
 - کیبورد هوشمند ریاضی برای نوشتن هر فرمولی
 - آمار توصیفی جامع + جدول فراوانی + ساقه-برگ + نمودارهای مختلف
 
----
+<br>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
+
+<br>
 
 ## ✨ ویژگی‌های کلیدی
 
@@ -40,7 +56,11 @@
 | 🌙 حالت تاریک/روشن | Liquid Glass Design |
 | 📱 کاملاً ریسپانسیو | موبایل، تبلت و دسکتاپ |
 
----
+<br>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
+
+<br>
 
 ## 🛠️ ابزارهای موجود
 
@@ -66,11 +86,15 @@
 - محاسبه‌گر احتمال نرمال و دوجمله‌ای
 - ترکیبیات (فاکتوریل، جایگشت، ترکیب)
 
----
+<br>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%"/>
+
+<br>
 
 ## 🚀 نحوه اجرا
 
-فقط فایل HTML را باز کنید. نیازی به نصب هیچ وابستگی‌ای نیست.
+فقط فایل `index.html` را باز کنید. نیازی به نصب هیچ وابستگی‌ای نیست.
 
 ```bash
 # یا روی GitHub Pages / Vercel / Netlify دیپلوی کنید
