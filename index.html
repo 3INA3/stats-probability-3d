@@ -1,0 +1,3188 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════════╗
+  ║  PROPRIETARY MATERIAL — © 2026 Sina Shojaeian (3INA3) — ALL RIGHTS RESERVED  ║
+  ║  Digital Document ID : 3INA3-STATPROB-20261018-38D7493C556E29AB              ║
+  ║  Issued              : 2026-10-18 03:02:28 UTC                                ║
+  ║  Official source     : https://github.com/3INA3                              ║
+  ║  Unauthorized copying, modification, decompilation or redistribution is      ║
+  ║  strictly prohibited. This file is digitally watermarked.                    ║
+  ╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<meta name="author" content="Sina Shojaeian (3INA3)">
+<meta name="copyright" content="© 2026 Sina Shojaeian (3INA3). All Rights Reserved. Unauthorized distribution, modification or commercial use prohibited. Official source: github.com/3INA3">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="مرجع تخصصی آمار و احتمال مهندسی — درس‌نامه گام‌به‌گام، شبیه‌سازهای سه‌بعدی و ابزارهای تعاملی · © 3INA3">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مرجع جامع آمار و احتمال مهندسی · © 3INA3 · 556E29AB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.1/lib/browser/math.js"></script>
+<style>
+:root{
+  --bg:#0e0d18; --bg-soft:#141225; --panel:rgba(24,22,42,0.72); --panel-solid:#181630;
+  --ink:#eceafb; --mut:#9d99c5; --line:rgba(255,255,255,0.08);
+  --ac:#8b5cf6; --ac2:#22d3ee; --ac3:#f472b6; --ok:#10b981; --warn:#f59e0b;
+  --grad:linear-gradient(135deg,#8b5cf6 0%,#6366f1 55%,#06b6d4 100%);
+  --sh:0 10px 40px -12px rgba(0,0,0,.55);
+  --r-lg:18px; --r-md:12px; --r-sm:9px;
+  --glass:blur(18px) saturate(160%);
+}
+:root.light{
+  --bg:#f5f4fc; --bg-soft:#eceafa; --panel:rgba(255,255,255,0.85); --panel-solid:#ffffff;
+  --ink:#1a1832; --mut:#5b5878; --line:rgba(80,60,180,0.12);
+  --ac:#7c3aed; --ac2:#0891b2; --ac3:#db2777; --ok:#059669; --warn:#d97706;
+  --grad:linear-gradient(135deg,#7c3aed 0%,#4f46e5 55%,#0891b2 100%);
+  --sh:0 12px 40px -14px rgba(60,40,140,.22);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font:15.5px/1.85 Vazirmatn,Tahoma,system-ui,sans-serif;
+  min-height:100vh;
+  transition:background-color .35s, color .35s;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before, body::after{
+  content:""; position:fixed; border-radius:50%;
+  filter:blur(90px); opacity:.32; pointer-events:none; z-index:0;
+  will-change:transform;
+}
+body::before{
+  width:520px; height:520px;
+  background:radial-gradient(circle, var(--ac), transparent 70%);
+  top:-140px; left:-140px;
+  animation:aurora1 20s ease-in-out infinite alternate;
+}
+body::after{
+  width:620px; height:620px;
+  background:radial-gradient(circle, var(--ac2), transparent 70%);
+  bottom:-180px; right:-180px;
+  animation:aurora2 24s ease-in-out infinite alternate;
+}
+:root.light body::before, :root.light body::after{ opacity:.18 }
+@keyframes aurora1{
+  0%{ transform:translate(0,0) scale(1) }
+  50%{ transform:translate(90px,130px) scale(1.18) }
+  100%{ transform:translate(-50px,70px) scale(.95) }
+}
+@keyframes aurora2{
+  0%{ transform:translate(0,0) scale(1) }
+  50%{ transform:translate(-110px,-90px) scale(1.12) }
+  100%{ transform:translate(70px,-50px) scale(1.05) }
+}
+
+button{font:inherit;cursor:pointer;color:inherit;border:0;background:none;transition:transform .18s cubic-bezier(.2,.9,.3,1.2), color .18s, border-color .18s, background .18s, box-shadow .25s, filter .18s}
+button:active{ transform:scale(.96) }
+a{color:var(--ac)}
+:focus-visible{outline:2.5px solid var(--ac2);outline-offset:2px;border-radius:8px}
+
+.view{ display:none; position:relative; z-index:1 }
+.view.active{ display:block; animation:viewFade .38s ease both }
+#splash-view.active{ display:flex; align-items:center; justify-content:center }
+@keyframes viewFade{ from{opacity:0} to{opacity:1} }
+
+/* ==== Splash ==== */
+#splash-view{ min-height:100vh; padding:2rem 1.2rem }
+.splash-inner{ max-width:960px; width:100%; text-align:center }
+.splash-logo{
+  width:92px;height:92px;border-radius:28px;background:var(--grad);display:grid;place-items:center;
+  color:#fff;font-weight:800;font-size:2.5rem;margin:0 auto 1.4rem;
+  box-shadow:var(--sh), 0 0 60px -10px color-mix(in srgb, var(--ac) 60%, transparent);
+  animation:logoIn .9s cubic-bezier(.2,.9,.3,1.15) both, logoFloat 4s ease-in-out 1s infinite;
+}
+@keyframes logoIn{ 0%{opacity:0;transform:scale(.3) rotate(-25deg)} 60%{opacity:1;transform:scale(1.08) rotate(4deg)} 100%{opacity:1;transform:scale(1) rotate(0)} }
+@keyframes logoFloat{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-9px) } }
+.splash-inner h1{ font-size:2.15rem; margin:0 0 .5rem; font-weight:800; line-height:1.35; opacity:0; animation:riseUp .7s .05s cubic-bezier(.2,.9,.3,1.1) forwards }
+.splash-inner h1 span{ background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent }
+.splash-inner>p{ color:var(--mut);margin:0 0 2.2rem;font-size:1.02rem; opacity:0; animation:riseUp .7s .15s cubic-bezier(.2,.9,.3,1.1) forwards }
+.splash-cards{ display:grid;grid-template-columns:1fr 1fr;gap:1.1rem }
+@media(max-width:680px){ .splash-cards{grid-template-columns:1fr} .splash-inner h1{font-size:1.55rem} }
+.splash-card{
+  background:var(--panel);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);
+  border:1px solid var(--line);border-radius:var(--r-lg);padding:2rem 1.5rem;text-align:center;
+  box-shadow:var(--sh);color:var(--ink);position:relative;overflow:hidden;display:block;width:100%;
+  opacity:0;
+  transition:transform .4s cubic-bezier(.2,.9,.3,1.1), border-color .3s, box-shadow .4s;
+}
+.splash-card:nth-child(1){ animation:cardPop .75s .25s cubic-bezier(.2,.9,.3,1.15) forwards }
+.splash-card:nth-child(2){ animation:cardPop .75s .4s cubic-bezier(.2,.9,.3,1.15) forwards }
+@keyframes cardPop{
+  0%{ opacity:0; transform:translateY(34px) scale(.93) }
+  60%{ opacity:1; transform:translateY(-5px) scale(1.015) }
+  100%{ opacity:1; transform:translateY(0) scale(1) }
+}
+@keyframes riseUp{ from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+.splash-card::after{
+  content:"";position:absolute;inset:-50%;background:conic-gradient(from 0deg, transparent 0deg, color-mix(in srgb, var(--ac) 40%, transparent) 60deg, transparent 120deg);
+  opacity:0;transition:opacity .45s;pointer-events:none;
+  animation:spin 8s linear infinite paused;
+}
+.splash-card:hover::after{ opacity:.22; animation-play-state:running }
+@keyframes spin{ to{ transform:rotate(360deg) } }
+.splash-card:hover{ transform:translateY(-8px) scale(1.01); border-color:var(--ac); box-shadow:0 20px 50px -18px color-mix(in srgb, var(--ac) 55%, transparent), var(--sh) }
+.splash-card .icon{ font-size:3.3rem;margin-bottom:.9rem;display:inline-block;transition:transform .4s cubic-bezier(.2,.9,.3,1.3) }
+.splash-card:hover .icon{ transform:scale(1.18) rotate(-6deg) }
+.splash-card h3{ margin:0 0 .5rem;font-size:1.22rem;color:var(--ac);font-weight:700 }
+.splash-card p{ margin:0;color:var(--mut);font-size:.92rem;line-height:1.75 }
+.splash-card .meta{ display:inline-block;margin-top:.8rem;font-size:.74rem;padding:.22rem .75rem;border-radius:20px;background:var(--bg-soft);color:var(--mut);font-weight:600;border:1px solid var(--line) }
+.splash-meta{ margin-top:2.2rem;color:var(--mut);font-size:.82rem;opacity:0; animation:riseUp .7s .6s ease forwards }
+.splash-top-bar{ position:absolute;top:1.3rem;left:1.3rem;display:flex;gap:.5rem;z-index:60 }
+
+/* ==== Header ==== */
+header{
+  position:sticky;top:0;z-index:30;display:flex;gap:.55rem;align-items:center;
+  padding:.65rem 1.1rem;background:var(--panel);backdrop-filter:var(--glass);
+  -webkit-backdrop-filter:var(--glass);border-bottom:1px solid var(--line);
+  transition:box-shadow .3s;
+}
+.logo{display:flex;align-items:center;gap:.55rem;flex:0 1 auto;min-width:0}
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;
+  color:#fff;font-weight:800;font-size:1rem;flex:none;
+  transition:transform .4s cubic-bezier(.2,.9,.3,1.3), box-shadow .3s;
+}
+header h1{font-size:.98rem;margin:0;white-space:nowrap;font-weight:700}
+#q{flex:1;min-width:0;padding:.5rem .95rem;border:1px solid var(--line);border-radius:11px;background:var(--bg-soft);color:var(--ink);font:inherit;font-size:.92rem;transition:border-color .25s, box-shadow .25s, background .25s}
+#q:focus{border-color:var(--ac);outline:none;box-shadow:0 0 0 3px color-mix(in srgb, var(--ac) 22%, transparent);background:var(--panel)}
+#q::placeholder{color:var(--mut)}
+.b{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:.4rem .8rem;font-size:.87rem;display:inline-flex;align-items:center;gap:.35rem;color:var(--ink)}
+.b:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px);box-shadow:0 6px 18px -8px color-mix(in srgb, var(--ac) 60%, transparent)}
+.b.pri{background:var(--grad);color:#fff;border:0;box-shadow:var(--sh)}
+.b.pri:hover{filter:brightness(1.08);box-shadow:0 10px 30px -10px var(--ac)}
+.ring{position:relative;width:36px;height:36px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:3.2}
+.ring .bgc{stroke:var(--line)}
+.ring .fgc{stroke:var(--ac2);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1);filter:drop-shadow(0 0 5px color-mix(in srgb, var(--ac2) 55%, transparent))}
+.ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:.62rem;font-weight:700;color:var(--ac2)}
+.mode-pill{font-size:.72rem;padding:.22rem .68rem;border-radius:20px;background:var(--bg-soft);color:var(--ac);font-weight:600;border:1px solid var(--line);white-space:nowrap;transition:all .3s}
+.mode-pill.prac{color:var(--ok)}
+#menu-btn{display:none}
+
+/* ==== Theory ==== */
+.wrap{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 55px)}
+nav{padding:1rem;border-inline-end:1px solid var(--line);background:var(--panel);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);position:sticky;top:55px;height:calc(100vh - 55px);overflow:auto}
+nav::-webkit-scrollbar{width:5px}
+nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px}
+nav button{display:flex;align-items:center;gap:.55rem;width:100%;text-align:start;padding:.5rem .8rem;border-radius:9px;color:var(--mut);font-size:.88rem;margin-bottom:2px}
+nav button:hover{background:var(--bg-soft);color:var(--ac);transform:translateX(-3px)}
+nav button.on{background:var(--grad);color:#fff;font-weight:600;box-shadow:0 6px 18px -8px var(--ac)}
+nav .sec{margin:1rem .8rem .35rem;font-size:.7rem;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;opacity:.8}
+main{padding:1.6rem;max-width:960px;margin:0 auto;width:100%}
+.lesson{background:var(--panel);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.4rem 1.7rem;margin-bottom:1.2rem;box-shadow:var(--sh);scroll-margin-top:80px;opacity:0;animation:lessonIn .5s cubic-bezier(.2,.9,.3,1.05) forwards}
+.lesson:hover{ border-color:color-mix(in srgb, var(--ac) 40%, var(--line)) }
+@keyframes lessonIn{ from{opacity:0;transform:translateY(14px) scale(.99); filter:blur(3px)} to{opacity:1;transform:none; filter:blur(0)} }
+.lesson h2{margin:.15rem 0 .75rem;font-size:1.28rem;font-weight:800}
+.lesson h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lesson h3{margin:1.5rem 0 .5rem;font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:.5rem;color:var(--ink)}
+.lesson h3::before{content:"";width:4px;height:17px;background:var(--grad);border-radius:3px;flex:none}
+.lesson h4{margin:1rem 0 .3rem;font-size:.96rem;font-weight:700;color:var(--ac2)}
+.lesson p{margin:.5rem 0;line-height:2}
+.lesson ul,.lesson ol{margin:.5rem 0;padding-inline-start:1.5rem;line-height:2}
+.lesson li{margin-bottom:.35rem}
+.lesson code{background:var(--bg-soft);border:1px solid var(--line);padding:.08rem .4rem;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:.88em;direction:ltr;display:inline-block}
+.tag{display:inline-block;font-size:.72rem;color:var(--ac);background:var(--bg-soft);padding:.18rem .68rem;border-radius:20px;margin-inline-end:.35rem;font-weight:600;border:1px solid var(--line)}
+.diff{font-size:.72rem;padding:.15rem .6rem;border-radius:20px;font-weight:600}
+.d1{background:color-mix(in srgb, var(--ok) 15%, transparent);color:var(--ok)}
+.d2{background:color-mix(in srgb, var(--warn) 15%, transparent);color:var(--warn)}
+.d3{background:color-mix(in srgb, var(--ac3) 15%, transparent);color:var(--ac3)}
+.box{border-inline-start:4px solid var(--ac2);background:var(--bg-soft);padding:.8rem 1.05rem;border-radius:10px;margin:.9rem 0;border:1px solid var(--line);border-inline-start-width:4px;line-height:1.95}
+.box.w{border-inline-start-color:var(--warn)}
+.box.p{border-inline-start-color:var(--ac)}
+.box.o{border-inline-start-color:var(--ac3)}
+.lesson-formula{
+  display:block; direction:ltr; text-align:center;
+  background:linear-gradient(135deg, color-mix(in srgb, var(--ac) 8%, var(--bg-soft)), var(--bg-soft));
+  border:1px solid var(--line); border-inline-start:4px solid var(--ac);
+  border-radius:10px; padding:.85rem 1rem; margin:.75rem 0;
+  font-family:"JetBrains Mono",monospace; font-size:1rem;
+  color:var(--ink); font-weight:600;
+  overflow-x:auto; white-space:nowrap;
+}
+.lesson-formula.big { font-size:1.08rem; padding:1rem }
+.worked{
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ok) 6%, var(--bg-soft)), var(--bg-soft));
+  border:1px solid var(--line); border-inline-start:4px solid var(--ok);
+  border-radius:10px; padding:.9rem 1.15rem; margin:1rem 0;
+}
+.worked-title{ font-weight:700; color:var(--ok); margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; font-size:.96rem }
+.worked .step-mini{ display:flex; gap:.6rem; padding:.4rem 0; border-bottom:1px dashed var(--line); font-size:.92rem; align-items:flex-start }
+.worked .step-mini:last-child{ border-bottom:0 }
+.worked .step-mini .sm-num{
+  width:22px;height:22px;border-radius:50%;background:var(--grad);color:#fff;
+  font-size:.72rem;display:grid;place-items:center;flex:none;font-weight:700;font-family:"JetBrains Mono",monospace;
+}
+.worked .step-mini .sm-body{ flex:1; min-width:0 }
+.worked .step-mini .sm-formula{
+  display:inline-block; direction:ltr; background:var(--bg);
+  padding:.2rem .6rem; border-radius:6px; font-family:"JetBrains Mono",monospace;
+  font-size:.86rem; margin-top:.2rem; border:1px solid var(--line);
+}
+.act{display:flex;gap:.55rem;margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--line);flex-wrap:wrap}
+.act .done{background:var(--ok)!important;color:#fff!important;border-color:var(--ok)!important;animation:donePop .4s ease}
+@keyframes donePop{ 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
+.pager{display:flex;justify-content:space-between;gap:.55rem;margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--line)}
+.pager button{flex:1;max-width:48%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;justify-content:center}
+.quiz{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem;margin:1rem 0}
+.quiz h4{margin:0 0 .8rem;font-size:1rem;color:var(--ac)}
+.q-item{margin-bottom:1.1rem;padding-bottom:.9rem;border-bottom:1px dashed var(--line)}
+.q-item:last-child{border:0;margin:0;padding:0}
+.q-item p{margin:0 0 .55rem;font-weight:600}
+.q-opts{display:grid;gap:.45rem}
+.q-opts button{text-align:start;padding:.55rem .85rem;border:1px solid var(--line);background:var(--panel);border-radius:9px;font-size:.89rem}
+.q-opts button:hover:not(:disabled){border-color:var(--ac);transform:translateX(-3px)}
+.q-opts button.right{background:color-mix(in srgb, var(--ok) 18%, transparent);border-color:var(--ok);color:var(--ok);font-weight:600;animation:rightPop .4s cubic-bezier(.2,.9,.3,1.2)}
+.q-opts button.wrong{background:color-mix(in srgb, var(--ac3) 18%, transparent);border-color:var(--ac3);color:var(--ac3);animation:shake .4s ease}
+@keyframes rightPop{ 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
+@keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.q-opts button:disabled{cursor:default;opacity:.92}
+
+/* ==== Practice ==== */
+.tabs-wrap{background:var(--panel);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border-bottom:1px solid var(--line);position:sticky;top:55px;z-index:20}
+.tabs-cat{display:flex;gap:.4rem;padding:.6rem 1.1rem .25rem;overflow-x:auto;scrollbar-width:none}
+.tabs-cat::-webkit-scrollbar{display:none}
+.tabs-cat button{padding:.4rem .9rem;border-radius:9px;font-size:.85rem;font-weight:600;color:var(--mut);white-space:nowrap;flex:none;border:1px solid transparent}
+.tabs-cat button:hover{background:var(--bg-soft);color:var(--ac)}
+.tabs-cat button.on{background:var(--grad);color:#fff;box-shadow:0 6px 18px -8px var(--ac);animation:tabGlow .35s ease}
+@keyframes tabGlow{ 0%{transform:scale(.94)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
+.tabs-tools{display:flex;gap:.35rem;padding:.25rem 1.1rem .7rem;overflow-x:auto;scrollbar-width:none}
+.tabs-tools::-webkit-scrollbar{display:none}
+.tabs-tools button{padding:.4rem .9rem;border-radius:20px;border:1px solid var(--line);background:var(--panel);color:var(--mut);white-space:nowrap;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:.35rem;flex:none}
+.tabs-tools button:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.tabs-tools button.on{background:var(--ac);color:#fff;border-color:var(--ac);animation:tabGlow .35s ease}
+.practice-content{max-width:1100px;margin:0 auto;padding:1.6rem 1.1rem 4rem}
+.tool-panel{background:var(--panel);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--sh);opacity:0;animation:panelSlide .55s cubic-bezier(.2,.9,.3,1.05) forwards}
+@keyframes panelSlide{
+  0%{ opacity:0; transform:translateY(22px) scale(.98); filter:blur(5px) }
+  60%{ opacity:1 }
+  100%{ opacity:1; transform:none; filter:blur(0) }
+}
+.tool-panel h2{margin:0 0 .35rem;font-size:1.22rem;color:var(--ac);display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.tool-panel h2::before{content:"";width:5px;height:22px;background:var(--grad);border-radius:3px}
+.tool-panel .lead{color:var(--mut);margin:0 0 1.2rem;font-size:.92rem;padding-inline-start:.9rem}
+.ctrl-grid{display:grid;gap:.9rem 1.1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:1rem}
+.ctrl{display:flex;flex-direction:column;gap:.3rem}
+.ctrl label{font-size:.8rem;color:var(--mut);font-family:"JetBrains Mono",monospace;font-weight:600}
+.ctrl input[type=range]{accent-color:var(--ac);width:100%}
+.ctrl output{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.92rem;color:var(--ac);transition:color .2s}
+.ctrl input[type=number],.ctrl input[type=text],.ctrl textarea,.ctrl select{padding:.55rem .75rem;border:1px solid var(--line);border-radius:10px;background:var(--bg-soft);color:var(--ink);font:inherit;font-family:"JetBrains Mono",monospace;font-size:.88rem;direction:ltr;transition:border-color .25s, box-shadow .25s}
+.ctrl input:focus,.ctrl textarea:focus,.ctrl select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb, var(--ac) 20%, transparent)}
+.ctrl textarea{min-height:96px;resize:vertical;line-height:1.5}
+.ctrl select{font-family:inherit;direction:rtl}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.65rem;margin-top:1rem}
+.result-card{background:var(--bg-soft);border:1px solid var(--line);border-radius:11px;padding:.7rem .9rem;opacity:0;animation:resultPop .45s cubic-bezier(.2,.9,.3,1.15) forwards;transition:transform .25s, border-color .25s, box-shadow .25s}
+.result-card:nth-child(1){animation-delay:.05s}
+.result-card:nth-child(2){animation-delay:.1s}
+.result-card:nth-child(3){animation-delay:.15s}
+.result-card:nth-child(4){animation-delay:.2s}
+.result-card:nth-child(5){animation-delay:.25s}
+.result-card:nth-child(6){animation-delay:.3s}
+@keyframes resultPop{ 0%{opacity:0;transform:translateY(10px) scale(.94)} 100%{opacity:1;transform:none} }
+.result-card:hover{transform:translateY(-3px) scale(1.015);border-color:var(--ac);box-shadow:0 10px 24px -12px color-mix(in srgb, var(--ac) 60%, transparent)}
+.result-card .label{font-size:.72rem;color:var(--mut);margin-bottom:.25rem;font-weight:600}
+.result-card .value{font-family:"JetBrains Mono",monospace;font-size:1.02rem;font-weight:700;color:var(--ac);direction:ltr;word-break:break-all}
+.tool-canvas-wrap{background:var(--bg-soft);border:1px solid var(--line);border-radius:13px;padding:.9rem;margin:1rem 0;position:relative;overflow:hidden;opacity:0;animation:canvasIn .55s cubic-bezier(.2,.9,.3,1.05) forwards;animation-delay:.1s}
+@keyframes canvasIn{ from{opacity:0;transform:scale(.985) translateY(8px); filter:blur(3px)} to{opacity:1;transform:none; filter:blur(0)} }
+.tool-canvas-wrap canvas{width:100%;height:auto;display:block;border-radius:9px}
+.tool-3d-wrap{background:var(--bg-soft);border:1px solid var(--line);border-radius:13px;margin:1rem 0;position:relative;overflow:hidden;height:440px;opacity:0;animation:canvasIn .6s cubic-bezier(.2,.9,.3,1.05) forwards;animation-delay:.1s}
+.tool-3d-wrap canvas{display:block;border-radius:9px}
+.tool-3d-wrap::after{
+  content:"🖱️ بچرخانید • 🔍 زوم";position:absolute;bottom:.6rem;right:.7rem;
+  font-size:.72rem;color:var(--mut);background:var(--panel);padding:.25rem .6rem;
+  border-radius:20px;border:1px solid var(--line);pointer-events:none;opacity:.85;
+  animation:riseUp .5s .5s ease both;
+}
+.formula-hint{background:var(--bg-soft);border-inline-start:4px solid var(--ac2);padding:.7rem 1rem;border-radius:9px;font-family:"JetBrains Mono",monospace;font-size:.86rem;margin:.75rem 0;direction:ltr;overflow-x:auto;white-space:nowrap;border:1px solid var(--line);border-inline-start-width:4px}
+
+/* ==== Formula walkthrough ==== */
+.formula-walk{
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ac) 7%, var(--bg-soft)), var(--bg-soft));
+  border:1px solid var(--line); border-inline-start:4px solid var(--ac);
+  border-radius:13px; padding:1rem 1.15rem; margin:1rem 0;
+}
+.formula-walk h4{
+  margin:0 0 .85rem; font-size:.98rem; color:var(--ac);
+  display:flex; align-items:center; gap:.5rem; font-weight:700;
+}
+.formula-walk h4::before{
+  content:""; width:4px; height:16px; background:var(--grad); border-radius:3px; flex:none;
+}
+.fw-step{ display:flex; gap:.7rem; padding:.55rem 0; border-bottom:1px dashed var(--line) }
+.fw-step:last-child{ border-bottom:0 }
+.fw-num{
+  width:26px; height:26px; border-radius:50%; background:var(--grad); color:#fff;
+  font-size:.76rem; display:grid; place-items:center; flex:none; font-weight:700;
+  font-family:"JetBrains Mono",monospace; box-shadow:0 2px 8px -2px var(--ac);
+}
+.fw-body{ flex:1; min-width:0 }
+.fw-title{ font-size:.82rem; color:var(--mut); margin-bottom:.25rem; font-weight:600 }
+.fw-formula{
+  background:var(--bg); border:1px solid var(--line); border-radius:8px;
+  padding:.5rem .75rem; font-family:"JetBrains Mono",monospace; font-size:.88rem;
+  direction:ltr; overflow-x:auto; white-space:nowrap; color:var(--ink);
+}
+.fw-formula.hl{ color:var(--ac); font-weight:700; border-color:color-mix(in srgb, var(--ac) 40%, var(--line)) }
+.fw-formula.ok{ color:var(--ok); font-weight:700; border-color:color-mix(in srgb, var(--ok) 40%, var(--line)); background:color-mix(in srgb, var(--ok) 6%, var(--bg)) }
+.fw-note{ margin-top:.3rem; font-size:.81rem; color:var(--mut); line-height:1.7 }
+
+.btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:.9rem 0}
+.badge-3d{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;padding:.12rem .5rem;border-radius:11px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;font-weight:700;animation:badgeShine 3s linear infinite}
+@keyframes badgeShine{ 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.25)} }
+
+#toast{position:fixed;bottom:1.3rem;left:50%;transform:translateX(-50%) translateY(130%) scale(.9);background:var(--panel-solid);backdrop-filter:var(--glass);color:var(--ink);border:1px solid var(--line);padding:.7rem 1.2rem;border-radius:12px;font-size:.88rem;box-shadow:var(--sh);transition:transform .45s cubic-bezier(.2,.9,.3,1.4), opacity .35s;z-index:100;max-width:90vw;text-align:center;pointer-events:none;opacity:0}
+#toast.on{transform:translateX(-50%) translateY(0) scale(1);opacity:1}
+mark.hl{background:color-mix(in srgb, var(--warn) 32%, transparent);color:var(--ink);padding:0 .18rem;border-radius:3px}
+
+/* ==== Math Keyboard ==== */
+.math-keyboard {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--panel-solid);
+  backdrop-filter: var(--glass); -webkit-backdrop-filter: var(--glass);
+  border-top: 1px solid var(--line);
+  z-index: 90;
+  max-height: 46vh;
+  display: flex; flex-direction: column;
+  transform: translateY(102%);
+  transition: transform .35s cubic-bezier(.2,.9,.3,1.05);
+  box-shadow: 0 -8px 32px -8px rgba(0,0,0,0.5);
+}
+.math-keyboard.on { transform: translateY(0); }
+.mk-top {
+  display: flex; align-items: center; gap: .35rem;
+  padding: .55rem .75rem;
+  border-bottom: 1px solid var(--line);
+}
+.mk-tabs {
+  display: flex; gap: .25rem; overflow-x: auto; flex: 1;
+  scrollbar-width: none;
+}
+.mk-tabs::-webkit-scrollbar { display: none; }
+.mk-tabs button {
+  padding: .3rem .7rem; border-radius: 8px; font-size: .8rem;
+  font-weight: 600; color: var(--mut); white-space: nowrap; flex: none;
+  border: 1px solid transparent;
+}
+.mk-tabs button.on { background: var(--grad); color: #fff; }
+.mk-close {
+  padding: .35rem .65rem !important; border-radius: 8px !important;
+  border: 1px solid var(--line) !important;
+  font-size: 1.1rem !important; font-weight: 700 !important;
+}
+.mk-body {
+  padding: .7rem .8rem 1.1rem;
+  overflow-y: auto;
+  display: grid;
+  gap: .4rem;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+}
+.mk-key {
+  padding: .5rem .25rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .95rem; font-weight: 600;
+  display: grid; place-items: center;
+  min-height: 40px;
+  transition: all .15s;
+}
+.mk-key:hover { background: var(--ac); color: #fff; border-color: var(--ac); transform: scale(1.06); }
+.mk-key.wide { grid-column: span 2; font-size: .76rem; }
+
+/* ==== Frequency table ==== */
+.freq-table {
+  width: 100%; border-collapse: collapse; margin: .75rem 0;
+  font-size: .85rem; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--line);
+}
+.freq-table th {
+  background: var(--grad); color: #fff;
+  padding: .55rem .55rem; font-weight: 600;
+  text-align: center; font-size: .8rem;
+}
+.freq-table td {
+  padding: .42rem .55rem; text-align: center;
+  border-bottom: 1px solid var(--line);
+  font-family: "JetBrains Mono", monospace; font-size: .8rem;
+}
+.freq-table tr:last-child td { border-bottom: 0; background: var(--bg-soft); font-weight: 700; }
+.freq-table tr:nth-child(even) td { background: color-mix(in srgb, var(--ac) 4%, transparent); }
+
+/* ==== Stats grid ==== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: .55rem; margin: 1rem 0;
+}
+.stat-item {
+  background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: 10px; padding: .55rem .8rem;
+  transition: transform .2s, border-color .2s;
+}
+.stat-item:hover { transform: translateY(-2px); border-color: var(--ac); }
+.stat-item .sk { font-size: .72rem; color: var(--mut); font-weight: 600; margin-bottom: .15rem; }
+.stat-item .sv { font-family: "JetBrains Mono", monospace; font-size: .98rem; font-weight: 700; color: var(--ac); direction: ltr; }
+
+/* ==== Stem-leaf ==== */
+.stem-leaf {
+  font-family: "JetBrains Mono", monospace;
+  background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: 10px; padding: .9rem 1.1rem; margin: .75rem 0;
+  direction: ltr;
+}
+.stem-leaf .sl-title { text-align: center; font-weight: 700; color: var(--ac); margin-bottom: .6rem; direction: rtl; font-size: .92rem; }
+.stem-leaf .sl-row { display: flex; gap: 1rem; padding: .15rem 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+.stem-leaf .sl-row:last-child { border: 0; }
+.stem-leaf .sl-stem { min-width: 50px; font-weight: 700; color: var(--ac2); text-align: right; }
+.stem-leaf .sl-divider { color: var(--mut); font-weight: 700; }
+.stem-leaf .sl-leaves { letter-spacing: .3rem; color: var(--ink); flex: 1; }
+.stem-leaf .sl-key { text-align: center; font-size: .78rem; color: var(--mut); margin-top: .6rem; direction: rtl; }
+
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  #menu-btn{display:inline-flex}
+  .logo h1{display:none}
+  nav{position:fixed;inset:55px auto 0 0;width:280px;z-index:25;transform:translateX(-105%);transition:transform .3s cubic-bezier(.2,.9,.3,1.1);height:auto;box-shadow:var(--sh);max-height:calc(100vh - 55px)}
+  nav.open{transform:none}
+  main{padding:1rem}
+  .math-keyboard { max-height: 55vh; }
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important }
+}
+
+/* === Proprietary watermark & copyright layer — © 3INA3 === */
+.wm-layer{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  display:flex;flex-wrap:wrap;align-content:space-around;justify-content:space-around;opacity:.85;
+}
+.wm-layer span{
+  font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:900;letter-spacing:.08em;
+  color:var(--wm, rgba(139,92,246,.07));
+  transform:rotate(-16deg) perspective(400px) rotateY(10deg);
+  text-shadow:2px 2px 0 rgba(0,0,0,.03);
+  padding:1.4rem 1.8rem;user-select:none;white-space:nowrap;
+}
+.copy-banner{
+  max-width:960px;margin:18px auto 10px;width:calc(100% - 28px);
+  padding:16px 18px;border-radius:18px;text-align:center;
+  background:linear-gradient(135deg,rgba(139,92,246,.14),rgba(34,211,238,.12));
+  border:1px solid var(--line); position:relative; z-index:2;
+}
+.copy-banner h2{
+  margin:0 0 8px;font-size:1.08rem;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;
+}
+.copy-banner p{margin:0;font-size:.76rem;line-height:1.85;color:var(--ink);opacity:.93}
+.copy-banner a{color:var(--ac);font-weight:700}
+.footer-copy{
+  max-width:960px;margin:28px auto 16px;padding:14px 16px;text-align:center;
+  font-size:.72rem;color:var(--mut);line-height:1.75;border-radius:16px;
+  border:1px solid var(--line); background:var(--panel); position:relative; z-index:2;
+}
+body > .view, body > #app-view { position:relative; z-index:1; }
+
+</style>
+</head>
+<body>
+
+<div class="wm-layer" id="wm-layer" aria-hidden="true"></div>
+<section class="copy-banner">
+  <h2>© ۱۴۰۵ / ۲۰۲۶ · سینا شجاعیان (3INA3)</h2>
+  <p>
+    تمام حقوق این مرجع تخصصی آمار و احتمال مهندسی برای <strong>Sina Shojaeian (3INA3)</strong> محفوظ است.<br>
+    دانلود، استفاده، کپی، بازنشر، ویرایش، مهندسی معکوس و توزیع <strong>فقط</strong> از طریق ریپازیتوری رسمی گیت‌هاب مجاز است:<br>
+    <a href="https://github.com/3INA3" target="_blank" rel="noopener">github.com/3INA3</a><br>
+    هرگونه استفاده غیرمجاز، تغییر محتوا، استخراج کد یا توزیع خارج از منبع رسمی پیگرد قانونی دارد.<br>
+    <strong>This material is proprietary &amp; digitally watermarked. Unauthorized modification, deobfuscation, redistribution or commercial use is strictly prohibited and may result in legal action.</strong><br>
+    Official source only · © 2026 Sina Shojaeian (3INA3) · All Rights Reserved · DocID: 3INA3-STATPROB-20261018-38D7493C556E29AB
+  </p>
+  <p style="margin-top:10px;font-size:.7rem;opacity:.9;direction:ltr;text-align:center;font-family:ui-monospace,monospace;line-height:1.7">
+    <strong>DIGITAL DOCUMENT ID</strong><br>
+    <span style="letter-spacing:.06em;font-size:.92rem">3INA3-STATPROB-20261018-38D7493C556E29AB</span><br>
+    Issued: 2026-10-18 03:02:28 UTC<br>
+    Owner / Author: Sina Shojaeian (3INA3)<br>
+    Official source: github.com/3INA3<br>
+    <span style="font-size:.62rem;opacity:.8">This ID identifies the original registered version. Any modification invalidates the claim of authenticity.</span>
+  </p>
+</section>
+
+
+<div id="splash-view" class="view active">
+  <div class="splash-top-bar">
+    <button class="b" id="theme-splash-btn" type="button" aria-label="تغییر تم">🌙</button>
+  </div>
+  <div class="splash-inner">
+    <div class="splash-logo">G</div>
+    <h1><span>مرجع تخصصی آمار و احتمال مهندسی</span></h1>
+    <p>درس‌نامه گام‌به‌گام، شبیه‌سازهای سه‌بعدی تعاملی و حل کامل فرمول‌ها با جایگذاری اعداد</p>
+    <div class="splash-cards">
+      <button class="splash-card" id="go-theory" type="button">
+        <div class="icon">📖</div>
+        <h3>درس‌نامه گام‌به‌گام</h3>
+        <p>توضیح کامل هر مفهوم با فرمول، مثال حل‌شده و کاربرد مهندسی</p>
+        <span class="meta">۱۵ درس تفصیلی + مثال عددی</span>
+      </button>
+      <button class="splash-card" id="go-practice" type="button">
+        <div class="icon">🧪</div>
+        <h3>شبیه‌سازهای زنده سه‌بعدی</h3>
+        <p>کیبورد هوشمند ریاضی، ویرایشگر آزاد فرمول و آمار توصیفی جامع</p>
+        <span class="meta">۲۲ ابزار + حل گام‌به‌گام</span>
+      </button>
+    </div>
+    <div class="splash-meta">رابط Liquid Glass + Three.js + Math.js • آموزش تعاملی فارسی</div>
+  </div>
+</div>
+
+<div id="app-view" class="view">
+  <header>
+    <button class="b" id="back-btn" type="button" aria-label="بازگشت">←</button>
+    <div class="logo">
+      <div class="logo-mark">G</div>
+      <h1>آمار مهندسی</h1>
+    </div>
+    <span class="mode-pill" id="mode-pill">📖 درس‌نامه</span>
+    <input id="q" type="search" placeholder="جستجو در درس‌ها… (Ctrl+K)" aria-label="جستجو">
+    <div class="ring" id="ring-wrap" title="پیشرفت" aria-label="پیشرفت">
+      <svg width="36" height="36"><circle class="bgc" cx="18" cy="18" r="15"/><circle class="fgc" id="ring-fg" cx="18" cy="18" r="15" stroke-dasharray="94.25" stroke-dashoffset="94.25"/></svg>
+      <span id="pc">0%</span>
+    </div>
+    <button class="b" id="menu-btn" type="button" aria-label="منو">☰</button>
+    <button class="b" id="theme-btn" type="button" aria-label="تم">🌙</button>
+  </header>
+
+  <div id="theory-subview" class="wrap">
+    <nav id="nav" aria-label="فهرست"></nav>
+    <main id="main" tabindex="-1"></main>
+  </div>
+
+  <div id="practice-subview" style="display:none">
+    <div class="tabs-wrap">
+      <div class="tabs-cat" id="tabs-cat"></div>
+      <div class="tabs-tools" id="tabs-tools"></div>
+    </div>
+    <div class="practice-content" id="practice-content"></div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<div id="math-keyboard" class="math-keyboard" aria-hidden="true">
+  <div class="mk-top">
+    <div class="mk-tabs"></div>
+    <button class="mk-close" type="button" aria-label="بستن کیبورد">✕</button>
+  </div>
+  <div class="mk-body"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ═══ PROPRIETARY BOOT — © 3INA3 | DocID: 3INA3-STATPROB-20261018-38D7493C556E29AB ═══ */
+  const __DOC_ID__ = "3INA3-STATPROB-20261018-38D7493C556E29AB";
+  const __OWNER__ = "Sina Shojaeian (3INA3)";
+  const __GITHUB__ = "https://github.com/3INA3";
+  const __ISSUED__ = "2026-10-18 03:02:28 UTC";
+  const __WM_NAMES__ = ["3INA3","SINA","سینا","Sina Shojaeian","3INA3","آمار","احتمال"];
+
+  // 3D watermark
+  (function(){
+    const layer = document.getElementById("wm-layer");
+    if(layer){
+      for(let i=0;i<26;i++){
+        const s = document.createElement("span");
+        s.textContent = __WM_NAMES__[i % __WM_NAMES__.length];
+        layer.appendChild(s);
+      }
+    }
+  })();
+
+  // Soft anti-copy (casual barrier)
+  document.addEventListener("contextmenu", e => {
+    if(!e.target.closest("input,textarea,a,button,.ctrl,canvas")) e.preventDefault();
+  });
+  setInterval(() => {
+    if(!document.title.includes("3INA3")) {
+      document.title = "مرجع جامع آمار و احتمال مهندسی · © 3INA3 · " + __DOC_ID__.slice(-8);
+    }
+  }, 4500);
+
+  // Integrity marker (visible in console for owner verification)
+  console.info("%c© 3INA3 Protected Document","color:#8b5cf6;font-weight:bold", __DOC_ID__, __ISSUED__);
+
+  /* ============================== Utils ============================== */
+  const $  = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const fmt = (n,d=4) => Number.isFinite(n) ? n.toFixed(d) : '—';
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+  function normalizeDigits(str) {
+    const persian = '۰۱۲۳۴۵۶۷۸۹', arabic = '٠١٢٣٤٥٦٧٨٩';
+    return String(str).replace(/[۰-۹٠-٩]/g, ch => {
+      const p = persian.indexOf(ch); if (p >= 0) return String(p);
+      return String(arabic.indexOf(ch));
+    });
+  }
+
+  function preprocessFormula(expr) {
+    expr = normalizeDigits(expr);
+    const repl = {
+      '×':'*', '÷':'/', '−':'-', '–':'-', '—':'-',
+      'π':'pi', '∞':'Infinity',
+      '√':'sqrt', '∛':'cbrt',
+      '≤':'<=', '≥':'>=', '≠':'!=',
+      '²':'^2', '³':'^3', '⁴':'^4', '⁵':'^5',
+      '⁰':'^0', '¹':'^1', '⁶':'^6', '⁷':'^7', '⁸':'^8', '⁹':'^9',
+      '⁻':'^-', '∑':'sum'
+    };
+    for (const [k,v] of Object.entries(repl)) expr = expr.split(k).join(v);
+    return expr;
+  }
+
+  let toastT;
+  function toast(msg){
+    const t = $('#toast'); if(!t) return;
+    t.textContent = msg; t.classList.add('on');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => t.classList.remove('on'), 1700);
+  }
+
+  function erf(x){
+    const s = x<0?-1:1; x = Math.abs(x);
+    const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+    const t=1/(1+p*x);
+    const y=1-(((((a5*t)+a4)*t+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+    return s*y;
+  }
+  const normCDF = (x,mu=0,sig=1) => 0.5*(1+erf((x-mu)/(sig*Math.SQRT2)));
+  const normPDF = (x,mu=0,sig=1) => Math.exp(-((x-mu)**2)/(2*sig*sig))/(sig*Math.sqrt(2*Math.PI));
+  function comb(n,k){ if(k<0||k>n) return 0; if(k>n-k) k=n-k; let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return r; }
+  function factorial(n){ if(n<0) return NaN; if(n<=1) return 1; let r=1; for(let i=2;i<=n;i++) r*=i; return r; }
+  function perm(n,k){ if(k<0||k>n) return 0; let r=1; for(let i=0;i<k;i++) r*=n-i; return r; }
+  const binomPMF = (n,k,p) => (k<0||k>n) ? 0 : comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);
+  const poissonPMF = (lam,k) => { if(k<0) return 0; let f=1; for(let i=2;i<=k;i++) f*=i; return Math.exp(-lam)*Math.pow(lam,k)/f; };
+  const geomPMF = (p,k) => (k<1) ? 0 : p*Math.pow(1-p,k-1);
+  function gammaLn(z){
+    const g=7,C=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+    if(z<0.5) return Math.log(Math.PI/Math.sin(Math.PI*z)) - gammaLn(1-z);
+    z -= 1; let x=C[0];
+    for(let i=1;i<g+2;i++) x += C[i]/(z+i);
+    const t = z+g+0.5;
+    return 0.5*Math.log(2*Math.PI) + (z+0.5)*Math.log(t) - t + Math.log(x);
+  }
+  function normInv(p){
+    if(p<=0||p>=1) return p<=0?-Infinity:Infinity;
+    const a1=-39.6968302866538,a2=220.946098424521,a3=-275.928510446969,a4=138.357751867269,a5=-30.6647980661472,a6=2.50662827745924;
+    const b1=-54.4760987982241,b2=161.585836858041,b3=-155.698979859887,b4=66.8013118877197,b5=-13.2806815528857;
+    const c1=-0.00778489400243029,c2=-0.322396458041136,c3=-2.40075827716184,c4=-2.54973253934373,c5=4.37466414146497,c6=2.93816398269878;
+    const d1=0.00778469570904146,d2=0.32246712907004,d3=2.445134137143,d4=3.75440866190742;
+    const plow=0.02425,phigh=1-plow; let q,r;
+    if(p<plow){ q=Math.sqrt(-2*Math.log(p)); return (((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6)/((((d1*q+d2)*q+d3)*q+d4)*q+1); }
+    if(p>phigh){ q=Math.sqrt(-2*Math.log(1-p)); return -(((((c1*q+c2)*q+c3)*q+c4)*q+c5)*q+c6)/((((d1*q+d2)*q+d3)*q+d4)*q+1); }
+    q=p-0.5; r=q*q;
+    return (((((a1*r+a2)*r+a3)*r+a4)*r+a5)*r+a6)*q/(((((b1*r+b2)*r+b3)*r+b4)*r+b5)*r+1);
+  }
+  function tCrit(df, alpha){
+    if(df<=0) return NaN;
+    const z = normInv(1-alpha/2);
+    const c = 1 + (z*z+1)/(4*df) + (5*z*z*z*z + 16*z*z + 3)/(96*df*df);
+    return z * c;
+  }
+
+  /* ============================== Lifecycle ============================== */
+  let generation = 0;
+  const sceneManager = {
+    scenes: [],
+    add(s){ this.scenes.push(s); },
+    disposeAll(){
+      this.scenes.forEach(s => { try{ s.dispose && s.dispose(); }catch(e){} });
+      this.scenes = [];
+    }
+  };
+  function bumpGeneration(){ generation++; sceneManager.disposeAll(); }
+  function resetScroll(){ window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }
+
+  function animateCanvas(cv, drawFn, duration=480){
+    if(cv._raf) cancelAnimationFrame(cv._raf);
+    const start = performance.now();
+    function step(now){
+      const t = Math.min(1, (now - start)/duration);
+      const e = 1 - Math.pow(1 - t, 3);
+      try { drawFn(e); } catch(err){ console.error(err); }
+      if(t < 1) cv._raf = requestAnimationFrame(step); else cv._raf = null;
+    }
+    cv._raf = requestAnimationFrame(step);
+  }
+  function bindAnimatedDraw(cv, drawFn){
+    cv._redraw = () => animateCanvas(cv, drawFn, 480);
+    cv._redrawInstant = () => {
+      if(cv._raf){ cancelAnimationFrame(cv._raf); cv._raf = null; }
+      drawFn(1);
+    };
+  }
+
+  /* ============================== 3D scene ============================== */
+  function createScene(container, opts = {}){
+    const W = container.clientWidth || 800;
+    const H = container.clientHeight || 400;
+    const isLight = document.documentElement.classList.contains('light');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(isLight ? 0xf5f4fc : 0x0e0d18);
+    const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 400);
+    const target = new THREE.Vector3(0, opts.targetY ?? 0, 0);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(W, H, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    container.appendChild(renderer.domElement);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+    const dl = new THREE.DirectionalLight(0xffffff, 0.85); dl.position.set(8, 16, 10); scene.add(dl);
+    const fl = new THREE.DirectionalLight(0x8b5cf6, 0.35); fl.position.set(-10, 6, -8); scene.add(fl);
+    let theta = opts.theta ?? 0.6;
+    let phi   = clamp(opts.phi ?? Math.PI/3, 0.15, Math.PI - 0.15);
+    let radius= opts.radius ?? 18;
+    let autoRotate = opts.autoRotate ?? true;
+    function updateCamera(){
+      camera.position.x = target.x + radius * Math.sin(phi) * Math.sin(theta);
+      camera.position.y = target.y + radius * Math.cos(phi);
+      camera.position.z = target.z + radius * Math.sin(phi) * Math.cos(theta);
+      camera.lookAt(target);
+    }
+    updateCamera();
+    const el = renderer.domElement;
+    el.style.cursor = 'grab';
+    el.style.touchAction = 'none';
+    let dragging = false, lastX = 0, lastY = 0;
+    function pOf(e){ return e.touches ? e.touches[0] : e; }
+    function onDown(e){ dragging = true; autoRotate = false; const p = pOf(e); lastX = p.clientX; lastY = p.clientY; el.style.cursor = 'grabbing'; }
+    function onMove(e){
+      if(!dragging) return;
+      const p = pOf(e);
+      const dx = p.clientX - lastX, dy = p.clientY - lastY;
+      lastX = p.clientX; lastY = p.clientY;
+      theta -= dx * 0.008;
+      phi = clamp(phi - dy * 0.008, 0.15, Math.PI - 0.15);
+      updateCamera();
+    }
+    function onUp(){ dragging = false; el.style.cursor = 'grab'; }
+    function onWheel(e){ e.preventDefault(); radius = clamp(radius + e.deltaY * 0.015, 6, 60); updateCamera(); }
+    el.addEventListener('mousedown', onDown);
+    el.addEventListener('touchstart', onDown, { passive: true });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchend', onUp);
+    el.addEventListener('wheel', onWheel, { passive: false });
+    const state = {
+      scene, camera, renderer, target, disposed: false, rafId: null,
+      onUpdate: opts.onUpdate,
+      setAutoRotate(v){ autoRotate = v; }
+    };
+    function tick(){
+      if(state.disposed) return;
+      state.rafId = requestAnimationFrame(tick);
+      if(autoRotate && !dragging){ theta += 0.0022; updateCamera(); }
+      if(state.onUpdate) state.onUpdate(state);
+      renderer.render(scene, camera);
+    }
+    tick();
+    state.dispose = function(){
+      if(state.disposed) return;
+      state.disposed = true;
+      if(state.rafId) cancelAnimationFrame(state.rafId);
+      el.removeEventListener('mousedown', onDown);
+      el.removeEventListener('touchstart', onDown);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('touchend', onUp);
+      el.removeEventListener('wheel', onWheel);
+      try { scene.traverse(o => {
+        if(o.geometry) o.geometry.dispose();
+        if(o.material){ if(Array.isArray(o.material)) o.material.forEach(m => m.dispose()); else o.material.dispose(); }
+      }); } catch(e){}
+      try { renderer.dispose(); } catch(e){}
+      if(el.parentNode) el.parentNode.removeChild(el);
+    };
+    sceneManager.add(state);
+    return state;
+  }
+
+  /* ============================== Canvas helpers ============================== */
+  function setupHiDPICanvas(canvas, logicalW, logicalH){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(logicalW * dpr);
+    canvas.height = Math.round(logicalH * dpr);
+    canvas.style.aspectRatio = `${logicalW} / ${logicalH}`;
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, W: logicalW, H: logicalH };
+  }
+  function drawGrid(ctx, W, H, k, colors, progress=1){
+    ctx.strokeStyle = colors.line; ctx.lineWidth = 1;
+    ctx.globalAlpha = progress;
+    for(let i=0;i<=W;i+=k){ ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,H); ctx.stroke(); }
+    for(let j=0;j<=H;j+=k){ ctx.beginPath(); ctx.moveTo(0,j); ctx.lineTo(W,j); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+  }
+  function drawAxes(ctx, W, H, colors){
+    ctx.strokeStyle = colors.mut; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(0, H-0.5); ctx.lineTo(W, H-0.5); ctx.stroke();
+  }
+  function resultCards(items){
+    return items.map(([l,v]) => `<div class="result-card"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('');
+  }
+  function rangeInput(id,label,min,max,step,val){
+    return `<div class="ctrl"><label>${label}</label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"><output>${val}</output></div>`;
+  }
+  function numberInput(id,label,val,step){
+    return `<div class="ctrl"><label>${label}</label><input type="number" id="${id}" value="${val}" step="${step||1}"></div>`;
+  }
+  function selectInput(id,label,opts){
+    return `<div class="ctrl"><label>${label}</label><select id="${id}">${opts.map(([v,n]) => `<option value="${v}">${n}</option>`).join('')}</select></div>`;
+  }
+  function syncOutput(el,id,val,digits){
+    const input = el.querySelector('#'+id);
+    if(input && input.nextElementSibling && input.nextElementSibling.tagName === 'OUTPUT'){
+      input.nextElementSibling.textContent = digits != null ? Number(val).toFixed(digits) : val;
+    }
+  }
+  function themeColors(){
+    const cs = getComputedStyle(document.documentElement);
+    return {
+      line: cs.getPropertyValue('--line').trim() || 'rgba(255,255,255,.08)',
+      mut:  cs.getPropertyValue('--mut').trim()  || '#9d99c5',
+      ac:   cs.getPropertyValue('--ac').trim()   || '#8b5cf6',
+      ac2:  cs.getPropertyValue('--ac2').trim()  || '#22d3ee',
+      ac3:  cs.getPropertyValue('--ac3').trim()  || '#f472b6',
+      ink:  cs.getPropertyValue('--ink').trim()  || '#eceafb',
+      bg:   cs.getPropertyValue('--bg-soft').trim() || '#141225'
+    };
+  }
+  function debounce(fn, ms=120){
+    let t; return function(...args){ clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+  }
+
+  /* ============================== Step walkthrough helper ============================== */
+  function stepWalk(steps, title='📐 حل گام‌به‌گام'){
+    return `<div class="formula-walk">
+      <h4>${title}</h4>
+      ${steps.map((s, i) => `
+        <div class="fw-step">
+          <div class="fw-num">${i+1}</div>
+          <div class="fw-body">
+            <div class="fw-title">${s.title}</div>
+            ${s.formula ? `<div class="fw-formula ${s.cls||''}">${s.formula}</div>` : ''}
+            ${s.note ? `<div class="fw-note">${s.note}</div>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  /* ============================== Math Keyboard ============================== */
+  const MATH_CATEGORIES = {
+    'پایه': ['+','-','×','÷','=','≠','±','(',')','[',']','{','}','.','،','%','^','_','|','<','>','≤','≥','√','∛','∞','!'],
+    'یونانی': ['α','β','γ','δ','ε','ζ','θ','ι','κ','λ','μ','ν','ξ','π','ρ','σ','τ','υ','φ','χ','ψ','ω','Γ','Δ','Θ','Λ','Ξ','Π','Σ','Φ','Ψ','Ω'],
+    'حساب': [
+      {t:'∫', v:'integrate('}, {t:'∬', v:'integrate('}, {t:'∂', v:'derivative('},
+      {t:'d/dx', v:'derivative('}, {t:'Σ', v:'sum('}, {t:'∏', v:'prod('},
+      {t:'√', v:'sqrt('}, {t:'ⁿ√', v:'nthRoot('}, {t:'lim', v:'limit('},
+      {t:'dx', v:'dx'}, {t:'∞', v:'Infinity'}, {t:'Δ', v:'Δ'},
+      {t:'²', v:'^2'}, {t:'³', v:'^3'}, {t:'ⁿ', v:'^n'}
+    ],
+    'توابع': [
+      {t:'sin', v:'sin('}, {t:'cos', v:'cos('}, {t:'tan', v:'tan('},
+      {t:'cot', v:'cot('}, {t:'sec', v:'sec('}, {t:'csc', v:'csc('},
+      {t:'ln', v:'log('}, {t:'log₁₀', v:'log10('}, {t:'exp', v:'exp('},
+      {t:'abs', v:'abs('}, {t:'floor', v:'floor('}, {t:'ceil', v:'ceil('},
+      {t:'min', v:'min('}, {t:'max', v:'max('}, {t:'round', v:'round('},
+      {t:'n!', v:'factorial('}, {t:'C(n,k)', v:'combinations('}, {t:'P(n,k)', v:'permutations('}
+    ],
+    'مجموعه': ['∈','∉','⊂','⊃','⊆','⊇','∪','∩','∅','ℝ','ℕ','ℤ','ℚ','ℂ','\\'],
+    'منطق': ['∧','∨','¬','→','←','↔','⇒','⇐','⇔','∀','∃','⊨','⊤','⊥','⊕'],
+    'سایر': ['°','′','″','≈','≡','∝','≅','‰','←','→','↑','↓','↦','…','·']
+  };
+
+  const MathKeyboard = {
+    activeField: null,
+    currentCat: 'پایه',
+    isOpen: false,
+    container: null,
+    init(){
+      this.container = document.getElementById('math-keyboard');
+      if (!this.container) return;
+      const tabsEl = this.container.querySelector('.mk-tabs');
+      tabsEl.innerHTML = Object.keys(MATH_CATEGORIES).map(cat =>
+        `<button data-cat="${cat}" type="button">${cat}</button>`
+      ).join('');
+      tabsEl.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (btn) { this.currentCat = btn.dataset.cat; this.render(); }
+      });
+      this.container.querySelector('.mk-close').addEventListener('click', () => this.hide());
+      this.container.querySelector('.mk-body').addEventListener('click', e => {
+        const btn = e.target.closest('.mk-key');
+        if (!btn) return;
+        e.preventDefault();
+        this.insert(btn.dataset.val);
+      });
+      document.addEventListener('focusin', e => {
+        if (e.target.matches && e.target.matches('[data-math]')) {
+          this.activeField = e.target;
+          this.show();
+        }
+      });
+      this.render();
+    },
+    render(){
+      const bodyEl = this.container.querySelector('.mk-body');
+      const items = MATH_CATEGORIES[this.currentCat];
+      bodyEl.innerHTML = items.map(item => {
+        const text = typeof item === 'string' ? item : item.t;
+        const val = typeof item === 'string' ? item : item.v;
+        return `<button class="mk-key ${text.length > 3 ? 'wide' : ''}" data-val="${esc(val)}" type="button">${esc(text)}</button>`;
+      }).join('');
+      this.container.querySelectorAll('.mk-tabs button').forEach(b => {
+        b.classList.toggle('on', b.dataset.cat === this.currentCat);
+      });
+    },
+    insert(text){
+      if (!this.activeField) return;
+      const el = this.activeField;
+      const start = el.selectionStart ?? el.value.length;
+      const end = el.selectionEnd ?? el.value.length;
+      el.value = el.value.slice(0, start) + text + el.value.slice(end);
+      const newPos = start + text.length;
+      el.selectionStart = el.selectionEnd = newPos;
+      el.focus();
+    },
+    show(){ if (this.container) { this.container.classList.add('on'); this.isOpen = true; } },
+    hide(){ if (this.container) { this.container.classList.remove('on'); this.isOpen = false; } },
+    toggle(){
+      if (this.isOpen) this.hide();
+      else {
+        if (!this.activeField) this.activeField = document.querySelector('[data-math]');
+        this.show();
+      }
+    }
+  };
+
+  /* ============================== Content ============================== */
+  const S = [
+    ['guide','📖 مفاهیم پایه'],
+    ['distrib','🔔 توزیع‌های احتمال'],
+    ['sim','🎲 شبیه‌سازها'],
+    ['infer','🧪 آمار استنباطی'],
+    ['data','📈 رگرسیون و داده'],
+    ['calc','🧮 محاسبات'],
+    ['quiz','📝 خودسنجی']
+  ];
+
+  const L = [
+    {s:'guide',d:1,id:'g-intro',t:'گام ۰ — راهنمای کار با سامانه',h:`
+      <p>این سامانه یک محیط آموزشی تعاملی برای درس <b>آمار و احتمال مهندسی</b> است. هر ابزار عملی طوری طراحی شده که <b>فرمول را نشان دهد، اعداد را جایگذاری کند و نتیجه را مرحله‌به‌مرحله بسازد</b>.</p>
+      <h3>ساختار کلی هر ابزار عملی</h3>
+      <ol>
+        <li><b>پنل ورودی:</b> اسلایدرها و فیلدها برای تعیین پارامترها.</li>
+        <li><b>نمودار:</b> نمایش زندهٔ تابع یا شبیه‌سازی (برخی سه‌بعدی، قابل چرخش).</li>
+        <li><b>کارت‌های نتیجه:</b> خروجی‌های عددی نهایی.</li>
+        <li><b>پنل «حل گام‌به‌گام»:</b> این بخش <b>مهم‌ترین قسمت آموزشی</b> است — فرمول اصلی، سپس جایگذاری اعداد واقعی، و در نهایت نتیجه.</li>
+      </ol>
+      <div class="box p"><b>💡 توصیه آموزشی</b><br>
+      ابتدا پارامترها را ثابت نگه دارید و پنل گام‌به‌گام را با دقت بخوانید. سپس یک پارامتر را تغییر دهید و ببینید کدام قسمت فرمول تغییر می‌کند.</div>
+
+      <h3>⌨️ کیبورد هوشمند ریاضی</h3>
+      <p>در بخش <b>ماشین‌حساب ← ویرایشگر فرمول</b>، یک کیبورد کامل ریاضی دارید که با آن می‌توانید هر فرمولی بنویسید:</p>
+      <ul>
+        <li><b>نمادهای پایه:</b> + − × ÷ = ≠ ≤ ≥ √ ∞ و ...</li>
+        <li><b>حروف یونانی:</b> α β γ δ ... π σ λ μ</li>
+        <li><b>حساب و جبر:</b> ∫ ∂ Σ ∏ lim √</li>
+        <li><b>توابع:</b> sin, cos, log, exp, factorial, combinations</li>
+      </ul>`},
+    {s:'guide',d:1,id:'g-random',t:'گام ۱ — متغیر تصادفی چیست؟',h:`
+      <h3>۱.۱ — تعریف</h3>
+      <p><b>متغیر تصادفی</b> تابعی است که به هر نتیجهٔ ممکن از فضای نمونه یک عدد حقیقی نسبت می‌دهد:</p>
+      <div class="lesson-formula">X : Ω → ℝ</div>
+      <h3>۱.۲ — دو نوع متغیر</h3>
+      <ul>
+        <li><b>گسسته:</b> مقادیر قابل شمارش — تعداد قطعات معیوب.</li>
+        <li><b>پیوسته:</b> مقادیر در یک بازه — عمر مفید قطعه، دما.</li>
+      </ul>
+      <h3>۱.۳ — امید ریاضی</h3>
+      <div class="lesson-formula big">گسسته: E[X] = Σ xᵢ · P(X = xᵢ)</div>
+      <div class="lesson-formula big">پیوسته: E[X] = ∫ x · f(x) dx</div>
+      <h3>۱.۴ — واریانس</h3>
+      <div class="lesson-formula big">Var(X) = E[X²] − (E[X])²</div>
+      <p>و انحراف معیار: σ = √Var(X)</p>
+      <div class="worked">
+        <div class="worked-title">✅ مثال حل‌شده</div>
+        <p>متغیر X = تعداد شیرها در ۲ پرتاب سکه.</p>
+        <div class="step-mini"><div class="sm-num">۱</div><div class="sm-body">P(X=0)=1/4، P(X=1)=1/2، P(X=2)=1/4</div></div>
+        <div class="step-mini"><div class="sm-num">۲</div><div class="sm-body"><div class="sm-formula">E[X] = 0·(1/4) + 1·(1/2) + 2·(1/4) = 1</div></div></div>
+        <div class="step-mini"><div class="sm-num">۳</div><div class="sm-body"><div class="sm-formula">Var(X) = 1.5 − 1² = 0.5</div></div></div>
+      </div>`},
+    {s:'guide',d:1,id:'g-pdf',t:'گام ۲ — تابع چگالی و توزیع تجمعی',h:`
+      <h3>۲.۱ — تابع چگالی پیوسته</h3>
+      <div class="lesson-formula">f(x) ≥ 0 ,   ∫₋∞^∞ f(x) dx = 1</div>
+      <div class="lesson-formula big">P(a < X < b) = ∫ₐᵇ f(x) dx</div>
+      <h3>۲.۲ — تابع توزیع تجمعی</h3>
+      <div class="lesson-formula big">F(x) = P(X ≤ x) = ∫₋∞^x f(t) dt</div>
+      <div class="lesson-formula big">P(a < X < b) = F(b) − F(a)</div>`},
+    {s:'guide',d:2,id:'g-expect',t:'گام ۳ — قوانین امید و واریانس',h:`
+      <h3>۳.۱ — قوانین امید</h3>
+      <ul>
+        <li>خطی بودن: E[aX + b] = a·E[X] + b</li>
+        <li>جمع: E[X + Y] = E[X] + E[Y]</li>
+      </ul>
+      <h3>۳.۲ — قوانین واریانس</h3>
+      <div class="lesson-formula">Var(aX + b) = a² · Var(X)</div>
+      <div class="lesson-formula">Var(X ± Y) = Var(X) + Var(Y) ± 2Cov(X,Y)</div>
+      <h3>۳.۳ — قضیه چبیشف</h3>
+      <div class="lesson-formula">P(|X − μ| ≥ kσ) ≤ 1/k²</div>`},
+    {s:'distrib',d:1,id:'g-normal',t:'توزیع نرمال — تحلیل کامل',h:`
+      <h3>تابع چگالی</h3>
+      <div class="lesson-formula big">f(x) = 1/(σ√(2π)) · exp[ −(x−μ)² / (2σ²) ]</div>
+      <h3>استانداردسازی</h3>
+      <div class="lesson-formula big">z = (x − μ) / σ</div>
+      <div class="lesson-formula big">P(a < X < b) = Φ(z_b) − Φ(z_a)</div>
+      <div class="worked">
+        <div class="worked-title">✅ مثال: μ=800، σ=50، P(700 < X < 900)</div>
+        <div class="step-mini"><div class="sm-num">۱</div><div class="sm-body"><div class="sm-formula">z₁ = (700−800)/50 = −2.0</div></div></div>
+        <div class="step-mini"><div class="sm-num">۲</div><div class="sm-body"><div class="sm-formula">z₂ = (900−800)/50 = +2.0</div></div></div>
+        <div class="step-mini"><div class="sm-num">۳</div><div class="sm-body"><div class="sm-formula">P = Φ(2) − Φ(−2) = 0.9544</div></div></div>
+      </div>`},
+    {s:'distrib',d:1,id:'g-binom',t:'توزیع دوجمله‌ای',h:`
+      <div class="lesson-formula big">P(X = k) = C(n,k) · pᵏ · (1−p)ⁿ⁻ᵏ</div>
+      <div class="lesson-formula">μ = np ,   σ² = np(1−p)</div>
+      <div class="worked">
+        <div class="worked-title">✅ مثال: n=20، p=0.05، k=2</div>
+        <div class="step-mini"><div class="sm-num">۱</div><div class="sm-body">C(20,2) = 190</div></div>
+        <div class="step-mini"><div class="sm-num">۲</div><div class="sm-body">0.05² = 0.0025</div></div>
+        <div class="step-mini"><div class="sm-num">۳</div><div class="sm-body">0.95¹⁸ ≈ 0.3972</div></div>
+        <div class="step-mini"><div class="sm-num">۴</div><div class="sm-body"><div class="sm-formula">P = 190 × 0.0025 × 0.3972 ≈ 0.1887</div></div></div>
+      </div>`},
+    {s:'distrib',d:1,id:'g-poisson',t:'توزیع پواسون',h:`
+      <div class="lesson-formula big">P(X = k) = (λᵏ · e^(−λ)) / k!</div>
+      <div class="lesson-formula">E[X] = Var(X) = λ</div>`},
+    {s:'distrib',d:1,id:'g-expo',t:'توزیع نمایی',h:`
+      <div class="lesson-formula big">f(x) = λ · e^(−λx) ,   x ≥ 0</div>
+      <div class="lesson-formula big">F(x) = 1 − e^(−λx)</div>
+      <div class="lesson-formula">P(a < X < b) = e^(−λa) − e^(−λb)</div>`},
+    {s:'sim',d:1,id:'g-lln',t:'قانون اعداد بزرگ',h:`
+      <div class="lesson-formula big">X̄ₙ = (X₁ + … + Xₙ)/n → μ   وقتی n → ∞</div>
+      <p>خطا متناسب با <code>1/√n</code> کاهش می‌یابد.</p>`},
+    {s:'sim',d:2,id:'g-clt',t:'قضیه حد مرکزی',h:`
+      <div class="lesson-formula big">X̄ ~ N(μ, σ²/n)   برای n بزرگ</div>
+      <div class="lesson-formula">SD[X̄] = σ/√n</div>`},
+    {s:'data',d:1,id:'g-desc',t:'آمار توصیفی — گام‌به‌گام',h:`
+      <div class="lesson-formula big">x̄ = (1/n) · Σᵢ₌₁ⁿ xᵢ</div>
+      <div class="lesson-formula big">s² = [Σ(xᵢ − x̄)²] / (n − 1)</div>
+      <div class="lesson-formula">IQR = Q3 − Q1</div>
+      <p>برای ابزار جامع آمار توصیفی، به بخش <b>داده و رگرسیون ← آمار توصیفی جامع</b> مراجعه کنید.</p>`},
+    {s:'data',d:2,id:'g-reg',t:'رگرسیون خطی',h:`
+      <div class="lesson-formula big">ŷ = a·x + b</div>
+      <div class="lesson-formula big">a = [n·Σxᵢyᵢ − Σxᵢ·Σyᵢ] / [n·Σxᵢ² − (Σxᵢ)²]</div>
+      <div class="lesson-formula">b = ȳ − a·x̄</div>
+      <div class="lesson-formula big">R² = r²</div>`},
+    {s:'infer',d:2,id:'g-ci',t:'فاصله اطمینان',h:`
+      <div class="lesson-formula big">CI = x̄ ± z_(α/2) · σ/√n</div>
+      <div class="lesson-formula big">CI = x̄ ± t_(α/2, n−1) · s/√n</div>`},
+    {s:'infer',d:3,id:'g-hypo',t:'آزمون فرض',h:`
+      <div class="lesson-formula big">z = (x̄ − μ₀) / (σ/√n)</div>
+      <div class="box p"><b>اگر p-value < α → رد H₀</b></div>`},
+    {s:'quiz',d:1,id:'quiz-final',t:'آزمون خودسنجی',h:`
+      <div class="quiz" data-quiz>
+        <h4>📝 سؤالات چهارگزینه‌ای</h4>
+        ${[
+         {q:'اگر میانگین جامعه ۵۰ و انحراف معیار ۱۰ باشد، مقدار z برای نمونهٔ ۲۵تایی با میانگین ۵۴ چقدر است؟',o:['2.0','1.5','0.5'],a:0},
+         {q:'قانون اعداد بزرگ چه چیزی را بیان می‌کند؟',o:['با افزایش تعداد آزمایش، میانگین تجربی به امید ریاضی نزدیک می‌شود','واریانس کاهش می‌یابد','توزیع نرمال می‌شود'],a:0},
+         {q:'اگر p-value کمتر از α باشد، نتیجه چیست؟',o:['رد H₀','تایید H₀','نامعتبر'],a:0},
+         {q:'در توزیع نرمال، چند درصد داده‌ها در μ ± 2σ هستند؟',o:['۹۵٪','۶۸٪','۵۰٪'],a:0},
+         {q:'واریانس نمونه با کدام مخرج محاسبه می‌شود؟',o:['n − 1','n','n + 1'],a:0},
+         {q:'کدام توزیع برای «تعداد موفقیت در n آزمایش مستقل» مناسب است؟',o:['دوجمله‌ای','نرمال','یکنواخت'],a:0}
+        ].map((q,i)=>`<div class="q-item" data-a="${q.a}"><p>${i+1}. ${q.q}</p><div class="q-opts">${q.o.map((o,j)=>`<button data-j="${j}" type="button">${o}</button>`).join('')}</div></div>`).join('')}
+      </div>`}
+  ];
+
+  const TOOL_CATS = [
+    {id:'dist',  name:'🔔 توزیع‌های احتمال', tools:['normal','bivar','binom','poisson','geom','expo','uniform','tdist']},
+    {id:'sim',   name:'🎲 تاس، سکه، مونت‌کارلو', tools:['dice','coin','montecarlo','clt']},
+    {id:'data',  name:'📊 داده و رگرسیون', tools:['descstats','hist','box','reg','qq']},
+    {id:'test',  name:'🧪 آزمون فرض و CI', tools:['ci','hypo']},
+    {id:'calc',  name:'🧮 ماشین‌حساب', tools:['formula','pcalc','combin']},
+  ];
+
+  const TOOLS = {
+    normal:     {icon:'🔔', name:'نرمال', render:toolNormal},
+    bivar:      {icon:'🌋', name:'نرمال دومتغیره', render:toolBivar},
+    binom:      {icon:'🎲', name:'دوجمله‌ای', render:toolBinom},
+    poisson:    {icon:'📮', name:'پواسون', render:toolPoisson},
+    geom:       {icon:'🔁', name:'هندسی', render:toolGeom},
+    expo:       {icon:'⏱️', name:'نمایی', render:toolExpo},
+    uniform:    {icon:'📏', name:'یکنواخت', render:toolUniform},
+    tdist:      {icon:'📐', name:'t و کای‌دو', render:toolT},
+    dice:       {icon:'🎲', name:'پرتاب تاس', render:toolDice},
+    coin:       {icon:'🪙', name:'پرتاب سکه', render:toolCoin},
+    montecarlo: {icon:'🎰', name:'مونت‌کارلو', render:toolMonteCarlo},
+    clt:        {icon:'🌊', name:'قضیه حد مرکزی', render:toolCLT},
+    descstats:  {icon:'📊', name:'آمار توصیفی جامع', render:toolDescStats},
+    hist:       {icon:'📊', name:'هیستوگرام', render:toolHist},
+    box:        {icon:'📦', name:'نمودار جعبه‌ای', render:toolBox},
+    reg:        {icon:'📈', name:'رگرسیون خطی', render:toolReg},
+    qq:         {icon:'📉', name:'QQ-plot', render:toolQQ},
+    ci:         {icon:'🎯', name:'فاصله اطمینان', render:toolCI},
+    hypo:       {icon:'⚖️', name:'آزمون فرض', render:toolHypo},
+    formula:    {icon:'✏️', name:'ویرایشگر فرمول', render:toolFormula},
+    pcalc:      {icon:'🧮', name:'احتمال نرمال', render:toolPcalc},
+    combin:     {icon:'🔢', name:'ترکیبیات', render:toolCombin},
+  };
+
+  /* ============================== State ============================== */
+  let done = ld('gg-done', []);
+  let bm   = ld('gg-bm', []);
+  let view = 'all';
+  let term = '';
+  let mode = 'splash';
+  let activeCat = 'dist';
+  let activeTool = 'normal';
+
+  const DIFF = ['','🟢 مقدماتی','🟡 متوسط','🔴 پیشرفته'];
+  const plain = h => h.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
+  function ld(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } }
+  function sv(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+  function highlight(html,q){
+    if(!q) return html;
+    const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    return html.replace(/(>)([^<]+)(<)/g, (m,a,txt,b) => a + txt.replace(re,'<mark class="hl">$1</mark>') + b);
+  }
+
+  /* ============================== Render ============================== */
+  function renderTheory(){
+    const main = $('#main'); if(!main) return;
+    const q = term.toLowerCase();
+    let list = L;
+    if(q) list = L.filter(l => (l.t + ' ' + plain(l.h)).toLowerCase().includes(q));
+    else if(view === 'bm') list = L.filter(l => bm.includes(l.id));
+    else if(view !== 'all'){
+      const isLesson = L.some(l => l.id === view);
+      list = isLesson ? L.filter(l => l.id === view) : L.filter(l => l.s === view);
+    }
+    let headerHtml = '';
+    if(view === 'bm' && !q) headerHtml = `<div class="lesson"><h2><span>🔖 نشانک‌ها</span></h2><p>${bm.length ? bm.length + ' درس' : 'خالی'}</p></div>`;
+    const single = list.length === 1 && !q;
+    const cards = list.length ? list.map((l, i) => {
+      const secName = (S.find(x => x[0] === l.s) || ['',''])[1];
+      const isDone = done.includes(l.id), isBm = bm.includes(l.id);
+      const content = q ? highlight(l.h, q) : l.h;
+      let pager = '';
+      if(single){
+        const idx = L.findIndex(x => x.id === l.id);
+        const prev = idx > 0 ? L[idx-1] : null, next = idx < L.length-1 ? L[idx+1] : null;
+        pager = `<div class="pager">
+          ${prev ? `<button class="b" data-id="${prev.id}" type="button">← ${esc(prev.t)}</button>` : '<span></span>'}
+          ${next ? `<button class="b" data-id="${next.id}" type="button">${esc(next.t)} →</button>` : '<span></span>'}
+        </div>`;
+      }
+      return `<article class="lesson" id="${l.id}" style="animation-delay:${Math.min(i*45,400)}ms">
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.4rem">
+          <span class="tag">${secName}</span>
+          <span class="diff d${l.d||1}">${DIFF[l.d||1]}</span>
+        </div>
+        <h2><span>${esc(l.t)}</span></h2>${content}
+        <div class="act">
+          <button class="b ${isDone?'done':''}" data-done="${l.id}" type="button">${isDone?'✓ تکمیل':'✓ خوانده‌ام'}</button>
+          <button class="b" data-bm="${l.id}" type="button">${isBm?'🔖 برداشتن':'🔖 نشانک'}</button>
+        </div>${pager}
+      </article>`;
+    }).join('') : `<div class="lesson"><h2><span>چیزی پیدا نشد 🔍</span></h2></div>`;
+    main.innerHTML = headerHtml + cards;
+    const total = L.length, d = done.length, pct = Math.round(d / total * 100);
+    const pcEl = $('#pc'); if(pcEl) pcEl.textContent = pct + '%';
+    const fgEl = $('#ring-fg');
+    if(fgEl){ const circ = 2 * Math.PI * 15; fgEl.style.strokeDashoffset = String(circ * (1 - d/total)); }
+  }
+
+  function renderNav(){
+    const navEl = $('#nav'); if(!navEl) return;
+    const grouped = {};
+    L.forEach(l => { (grouped[l.s] = grouped[l.s] || []).push(l); });
+    let html = `<button data-view="all" class="${view==='all'?'on':''}" type="button">📚 همهٔ درس‌ها</button>`;
+    let idx = 0;
+    S.forEach(([k,name]) => {
+      if(!grouped[k]) return;
+      html += `<div class="sec">${name}</div>`;
+      grouped[k].forEach(l => {
+        const d = Math.min(idx*30, 360);
+        html += `<button data-id="${l.id}" class="${view===l.id?'on':''}" type="button" style="animation:riseUp .35s ${d}ms ease both">${done.includes(l.id) ? '✓ ' : ''}${esc(l.t)}</button>`;
+        idx++;
+      });
+    });
+    html += `<div class="sec">ذخیره‌شده</div><button data-view="bm" class="${view==='bm'?'on':''}" type="button" style="animation:riseUp .35s ${Math.min(idx*30, 360)}ms ease both">🔖 نشانک‌ها (${bm.length})</button>`;
+    navEl.innerHTML = html;
+  }
+
+  function renderPractice(){
+    bumpGeneration();
+    const catContainer = $('#tabs-cat');
+    const toolsContainer = $('#tabs-tools');
+    const content = $('#practice-content');
+    if(!catContainer || !toolsContainer || !content) return;
+    catContainer.innerHTML = TOOL_CATS.map(c =>
+      `<button data-cat="${c.id}" class="${activeCat===c.id?'on':''}" type="button">${c.name}</button>`
+    ).join('');
+    const cat = TOOL_CATS.find(c => c.id === activeCat) || TOOL_CATS[0];
+    if(!cat.tools.includes(activeTool)) activeTool = cat.tools[0];
+    toolsContainer.innerHTML = cat.tools.map(tid => {
+      const t = TOOLS[tid];
+      return `<button data-tool="${tid}" class="${activeTool===tid?'on':''}" type="button">${t.icon} ${t.name}</button>`;
+    }).join('');
+    content.innerHTML = '';
+    const panel = document.createElement('div');
+    panel.className = 'tool-panel';
+    content.appendChild(panel);
+    requestAnimationFrame(() => {
+      try { TOOLS[activeTool].render(panel); }
+      catch(err){
+        console.error(err);
+        panel.innerHTML = `<h2>خطا در ابزار</h2><p class="lead">${esc(err.message)}</p>`;
+      }
+    });
+  }
+
+  function switchMode(m){
+    mode = m;
+    const splash = $('#splash-view'), app = $('#app-view');
+    const theoryView = $('#theory-subview'), practiceView = $('#practice-subview');
+    const qInput = $('#q'), menuBtn = $('#menu-btn'), modePill = $('#mode-pill');
+    if(!splash || !app) return;
+    if(m === 'splash'){ bumpGeneration(); app.classList.remove('active'); splash.classList.add('active'); resetScroll(); return; }
+    splash.classList.remove('active'); app.classList.add('active');
+    if(m === 'theory'){
+      bumpGeneration();
+      theoryView.style.display = 'grid'; practiceView.style.display = 'none';
+      qInput.style.display = ''; menuBtn.style.display = '';
+      modePill.innerHTML = '📖 درس‌نامه'; modePill.classList.remove('prac');
+      renderNav(); renderTheory();
+    } else {
+      theoryView.style.display = 'none'; practiceView.style.display = 'block';
+      qInput.style.display = 'none'; menuBtn.style.display = 'none';
+      modePill.innerHTML = '🧪 شبیه‌ساز زنده'; modePill.classList.add('prac');
+      renderPractice();
+    }
+    resetScroll();
+    requestAnimationFrame(resetScroll);
+  }
+
+  function setTheme(isLight){
+    document.documentElement.classList.toggle('light', isLight);
+    const icon = isLight ? '☀️' : '🌙';
+    const btn1 = $('#theme-btn'); if(btn1) btn1.textContent = icon;
+    const btn2 = $('#theme-splash-btn'); if(btn2) btn2.textContent = icon;
+    sv('gg-light', isLight);
+    if(mode === 'practice'){
+      $$('#practice-content canvas').forEach(cv => { if(cv._redraw) try{ cv._redraw(); }catch(e){} });
+      sceneManager.scenes.forEach(s => {
+        if(s.scene && s.scene.background){
+          s.scene.background.set(isLight ? 0xf5f4fc : 0x0e0d18);
+        }
+      });
+    }
+  }
+  setTheme(ld('gg-light', matchMedia('(prefers-color-scheme:light)').matches));
+
+  /* ============================== Listeners ============================== */
+  $('#go-theory')?.addEventListener('click', () => switchMode('theory'));
+  $('#go-practice')?.addEventListener('click', () => switchMode('practice'));
+  $('#back-btn')?.addEventListener('click', () => switchMode('splash'));
+  $('#theme-btn')?.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('light')));
+  $('#theme-splash-btn')?.addEventListener('click', () => setTheme(!document.documentElement.classList.contains('light')));
+  $('#menu-btn')?.addEventListener('click', () => $('#nav')?.classList.toggle('open'));
+  $('#q')?.addEventListener('input', debounce(e => { term = e.target.value.trim(); renderTheory(); }, 180));
+  document.addEventListener('keydown', e => {
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); $('#q')?.focus(); }
+  });
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    if(btn.dataset.cat){ activeCat = btn.dataset.cat; renderPractice(); return; }
+    if(btn.dataset.tool){ activeTool = btn.dataset.tool; renderPractice(); return; }
+    if(btn.dataset.done){
+      const i = btn.dataset.done;
+      const wasDone = done.includes(i);
+      done = wasDone ? done.filter(x => x !== i) : [...done, i];
+      sv('gg-done', done);
+      const rw = $('#ring-wrap');
+      if(rw){ rw.classList.remove('pulse'); void rw.offsetWidth; rw.classList.add('pulse'); }
+      renderNav(); renderTheory();
+      if(!wasDone) toast('✓ درس تکمیل شد');
+      return;
+    }
+    if(btn.dataset.bm){
+      const i = btn.dataset.bm;
+      bm = bm.includes(i) ? bm.filter(x => x !== i) : [...bm, i];
+      sv('gg-bm', bm); renderNav(); renderTheory(); return;
+    }
+    if(btn.dataset.view !== undefined){
+      view = btn.dataset.view; term = '';
+      $('#q').value = ''; renderNav(); renderTheory();
+      $('#nav')?.classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' }); return;
+    }
+    if(btn.dataset.id){
+      view = btn.dataset.id; term = '';
+      $('#q').value = ''; renderNav(); renderTheory();
+      $('#nav')?.classList.remove('open');
+      requestAnimationFrame(() => {
+        const el = document.getElementById(btn.dataset.id);
+        if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return;
+    }
+    if(btn.closest('.q-opts')){
+      const item = btn.closest('.q-item');
+      const correct = +item.dataset.a, chosen = +btn.dataset.j;
+      item.querySelectorAll('button').forEach((b, idx) => {
+        b.disabled = true;
+        if(idx === correct) b.classList.add('right');
+        else if(idx === chosen) b.classList.add('wrong');
+      });
+      toast(chosen === correct ? '🎉 پاسخ درست است!' : '❌ پاسخ نادرست است');
+    }
+  });
+
+  /* ============================== 3D primitives ============================== */
+  function makeDiceMesh(){
+    const group = new THREE.Group();
+    const geo = new THREE.BoxGeometry(2.2, 2.2, 2.2);
+    const mat = new THREE.MeshStandardMaterial({ color: 0xf6f6ff, roughness: 0.4, metalness: 0.15 });
+    group.add(new THREE.Mesh(geo, mat));
+    const pipGeo = new THREE.SphereGeometry(0.17, 12, 12);
+    const pipMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.5 });
+    const R = 1.115, off = 0.55;
+    const faces = [
+      [[0,0, R]],
+      [[-off,-off,-R],[off,-off,-R],[-off,off,-R],[off,off,-R],[-off,0,-R],[off,0,-R]],
+      [[R,-off,-off],[R,off,off]],
+      [[-R,-off,-off],[-R,-off,off],[-R,off,-off],[-R,off,off],[-R,0,0]],
+      [[-off,R,-off],[0,R,0],[off,R,off]],
+      [[-off,-R,-off],[off,-R,-off],[-off,-R,off],[off,-R,off]]
+    ];
+    faces.forEach(pips => pips.forEach(([x,y,z]) => {
+      const p = new THREE.Mesh(pipGeo, pipMat); p.position.set(x,y,z); group.add(p);
+    }));
+    return group;
+  }
+
+  function makeCoinMesh(){
+    const group = new THREE.Group();
+    const body = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.6, 1.6, 0.2, 48),
+      new THREE.MeshStandardMaterial({ color: 0xf2c54a, roughness: 0.3, metalness: 0.8 })
+    );
+    body.rotation.x = Math.PI / 2; group.add(body);
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.6, 0.09, 10, 48),
+      new THREE.MeshStandardMaterial({ color: 0xc79a1f, metalness: 0.9, roughness: 0.25 })
+    );
+    group.add(ring);
+    const faceMark = new THREE.Mesh(
+      new THREE.CircleGeometry(1.35, 40),
+      new THREE.MeshStandardMaterial({ color: 0xe6b53a, roughness: 0.4, metalness: 0.6 })
+    );
+    faceMark.position.z = 0.11; group.add(faceMark);
+    const faceMark2 = faceMark.clone();
+    faceMark2.position.z = -0.11; faceMark2.rotation.y = Math.PI; group.add(faceMark2);
+    return group;
+  }
+
+  /* ============================== Tool: Formula Editor (NEW) ============================== */
+  function toolFormula(el){
+    el.innerHTML = `<h2>✏️ ویرایشگر فرمول آزاد</h2>
+      <p class="lead">هر فرمول ریاضی را تایپ کنید — کیبورد هوشمند برای درج نمادهای ریاضی. پشتیبانی از انتگرال، مشتق، حل معادله، مجموع، ترکیبیات و...</p>
+      <div class="ctrl">
+        <label>فرمول ریاضی</label>
+        <textarea id="fe-expr" data-math="true" rows="3" placeholder="مثال: integrate(x^2 + 3*x, x, 0, 1) یا derivative(sin(x)*x^2, x) یا sqrt(2)*pi"></textarea>
+      </div>
+      <div class="ctrl-grid">
+        <div class="ctrl">
+          <label>متغیرها (اختیاری) — مثال: x=2, y=3</label>
+          <input type="text" id="fe-vars" placeholder="x=2, y=3">
+        </div>
+        <div class="ctrl">
+          <label>&nbsp;</label>
+          <button class="b pri" id="fe-eval" type="button" style="justify-content:center">= محاسبه</button>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="b" id="fe-toggle-kb" type="button">⌨️ نمایش/پنهان کیبورد</button>
+        <button class="b" data-example="int" type="button">∫ انتگرال</button>
+        <button class="b" data-example="deriv" type="button">∂ مشتق</button>
+        <button class="b" data-example="sum" type="button">Σ مجموع</button>
+        <button class="b" data-example="eq" type="button">= حل معادله</button>
+        <button class="b" data-example="binom" type="button">C(n,k) ترکیب</button>
+        <button class="b" id="fe-clear" type="button">🗑 پاک</button>
+      </div>
+      <div id="fe-result"></div>`;
+
+    const exprEl = el.querySelector('#fe-expr');
+    const varsEl = el.querySelector('#fe-vars');
+
+    const examples = {
+      int: 'integrate(x^2 + 3*x, x, 0, 1)',
+      deriv: 'derivative(sin(x)*x^2, x)',
+      sum: 'sum(i^2, i, 1, 10)',
+      eq: 'solve(2*x + 5 = 15, x)',
+      binom: 'combinations(10, 3)'
+    };
+
+    el.querySelectorAll('[data-example]').forEach(btn => {
+      btn.onclick = () => {
+        exprEl.value = examples[btn.dataset.example];
+        exprEl.focus();
+        MathKeyboard.activeField = exprEl;
+        MathKeyboard.show();
+      };
+    });
+
+    el.querySelector('#fe-clear').onclick = () => { exprEl.value = ''; exprEl.focus(); MathKeyboard.show(); };
+    el.querySelector('#fe-toggle-kb').onclick = () => {
+      MathKeyboard.activeField = exprEl;
+      MathKeyboard.toggle();
+    };
+
+    function evaluate(){
+      const expr = exprEl.value.trim();
+      if(!expr){ toast('فرمول را وارد کنید'); return; }
+      if(typeof math === 'undefined'){
+        el.querySelector('#fe-result').innerHTML = `<div class="box w"><b>⚠️ کتابخانه math.js بارگذاری نشد</b><br>اتصال اینترنت را بررسی کنید.</div>`;
+        return;
+      }
+      try {
+        const preprocessed = preprocessFormula(expr);
+        const scope = {};
+        varsEl.value.split(/[,\n;]/).forEach(v => {
+          const [name, val] = v.split('=');
+          if(name && val){
+            try { scope[name.trim()] = math.evaluate(preprocessFormula(val.trim())); } catch(e){}
+          }
+        });
+        let result;
+        try { result = math.evaluate(preprocessed, scope); }
+        catch(e1){ try { result = math.simplify(preprocessed, scope); } catch(e2){ throw e1; } }
+        const resultStr = math.format(result, { precision: 10 });
+        const simplified = (() => {
+          try { return math.simplify(preprocessed, scope).toString(); } catch(e){ return null; }
+        })();
+
+        let walk = '';
+        let stepNum = 1;
+        walk += `<div class="fw-step"><div class="fw-num">${stepNum++}</div><div class="fw-body">
+          <div class="fw-title">فرمول ورودی</div>
+          <div class="fw-formula hl">${esc(expr)}</div></div></div>`;
+        if(preprocessed !== expr){
+          walk += `<div class="fw-step"><div class="fw-num">${stepNum++}</div><div class="fw-body">
+            <div class="fw-title">پس از استانداردسازی نمادها</div>
+            <div class="fw-formula">${esc(preprocessed)}</div></div></div>`;
+        }
+        if(Object.keys(scope).length){
+          walk += `<div class="fw-step"><div class="fw-num">${stepNum++}</div><div class="fw-body">
+            <div class="fw-title">متغیرهای جایگذاری‌شده</div>
+            <div class="fw-formula">${Object.entries(scope).map(([k,v])=>`${k} = ${v}`).join(' , ')}</div></div></div>`;
+        }
+        if(simplified && simplified !== resultStr){
+          walk += `<div class="fw-step"><div class="fw-num">${stepNum++}</div><div class="fw-body">
+            <div class="fw-title">شکل ساده‌شده</div>
+            <div class="fw-formula">${esc(simplified)}</div></div></div>`;
+        }
+        walk += `<div class="fw-step"><div class="fw-num">${stepNum++}</div><div class="fw-body">
+          <div class="fw-title">نتیجه نهایی</div>
+          <div class="fw-formula ok" style="font-size:1.05rem">${esc(resultStr)}</div></div></div>`;
+
+        el.querySelector('#fe-result').innerHTML = `<div class="formula-walk"><h4>✅ نتیجه محاسبه</h4>${walk}</div>`;
+      } catch(err){
+        el.querySelector('#fe-result').innerHTML = `<div class="box w"><b>⚠️ خطا در محاسبه</b><br>${esc(err.message)}</div>`;
+      }
+    }
+
+    el.querySelector('#fe-eval').onclick = evaluate;
+    exprEl.addEventListener('keydown', e => {
+      if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); evaluate(); }
+    });
+
+    el.querySelector('#fe-result').innerHTML = `<div class="box p">
+      <b>💡 راهنما</b><br>
+      • روی فیلد فرمول کلیک کنید تا کیبورد هوشمند باز شود<br>
+      • می‌توانید از دکمه‌های میان‌بر بالا استفاده کنید<br>
+      • عملکردها: <code>sqrt(2)</code> , <code>integrate(x^2, x, 0, 1)</code> , <code>derivative(sin(x), x)</code> , <code>solve(2*x+5=15, x)</code> , <code>combinations(10,3)</code><br>
+      • متغیرها را در فیلد بالایی تعریف کنید: <code>x=2, y=3</code>
+    </div>`;
+
+    setTimeout(() => {
+      exprEl.focus();
+      MathKeyboard.activeField = exprEl;
+      MathKeyboard.show();
+    }, 300);
+  }
+
+  /* ============================== Tool: Descriptive Statistics (NEW) ============================== */
+  function toolDescStats(el){
+    el.innerHTML = `<h2>📊 آمار توصیفی جامع</h2>
+      <p class="lead">تمام آماره‌های توصیفی + جدول فراوانی + ۴ نوع نمودار + نمودار ساقه-برگ + حل گام‌به‌گام</p>
+
+      <div class="ctrl">
+        <label>داده‌ها (با کاما یا فاصله جدا کنید)</label>
+        <textarea id="ds-data" rows="2">12,15,11,18,14,16,13,15,17,14,19,20,13,12,16,18,15,14,17,13,22,25,21,19,20,17,14,16,15,18</textarea>
+      </div>
+
+      <div class="ctrl-grid">
+        ${rangeInput('ds-bins', 'تعداد کلاس‌ها', 3, 20, 1, 6)}
+        ${selectInput('ds-chart', 'نوع نمودار', [
+          ['hist','هیستوگرام'], ['poly','چندضلعی فراوانی'],
+          ['ogive','اوجایو (تجمعی)'], ['box','جعبه‌ای']
+        ])}
+      </div>
+
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="360"></canvas></div>
+
+      <div id="ds-stats"></div>
+      <div id="ds-table"></div>
+      <div id="ds-stem"></div>
+      <div id="ds-walk"></div>`;
+
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 360);
+    const parse = () => el.querySelector('#ds-data').value.split(/[\s,;]+/).map(s => parseFloat(s)).filter(Number.isFinite);
+
+    let cached = null;
+
+    function quantile(sorted, q){
+      if(!sorted.length) return NaN;
+      const pos = (sorted.length - 1) * q;
+      const lo = Math.floor(pos), hi = Math.ceil(pos), frac = pos - lo;
+      return lo === hi ? sorted[lo] : sorted[lo] * (1-frac) + sorted[hi] * frac;
+    }
+
+    function compute(){
+      const data = parse();
+      if(!data.length){ cached = null; return; }
+      const sorted = [...data].sort((a,b) => a-b);
+      const n = sorted.length;
+      const sum = sorted.reduce((a,b) => a+b, 0);
+      const mean = sum / n;
+      const min = sorted[0], max = sorted[n-1], range = max - min;
+      const q1 = quantile(sorted, 0.25);
+      const q2 = quantile(sorted, 0.5);
+      const q3 = quantile(sorted, 0.75);
+      const iqr = q3 - q1;
+
+      const ss = sorted.reduce((a,v) => a + (v-mean)**2, 0);
+      const varPop = ss / n;
+      const varSamp = n > 1 ? ss / (n-1) : 0;
+      const sdPop = Math.sqrt(varPop);
+      const sdSamp = Math.sqrt(varSamp);
+      const cv = mean !== 0 ? sdSamp/mean * 100 : 0;
+
+      const freq = {};
+      sorted.forEach(v => freq[v] = (freq[v]||0)+1);
+      const maxFreq = Math.max(...Object.values(freq));
+      const modes = Object.keys(freq).filter(k => freq[k] === maxFreq).map(Number);
+
+      const m3 = sorted.reduce((a,v) => a + (v-mean)**3, 0)/n;
+      const m4 = sorted.reduce((a,v) => a + (v-mean)**4, 0)/n;
+      const skew = sdPop > 0 ? m3/(sdPop**3) : 0;
+      const kurt = sdPop > 0 ? m4/(sdPop**4) - 3 : 0;
+      const mad = sorted.reduce((a,v) => a + Math.abs(v-mean), 0)/n;
+
+      const allPos = sorted.every(v => v > 0);
+      const geoMean = allPos ? Math.pow(sorted.reduce((a,b) => a*b, 1), 1/n) : NaN;
+      const harmMean = allPos ? n/sorted.reduce((a,b) => a + 1/b, 0) : NaN;
+
+      const lowFence = q1 - 1.5*iqr, highFence = q3 + 1.5*iqr;
+      const outliers = sorted.filter(v => v < lowFence || v > highFence);
+
+      const bins = clamp(Math.round(+el.querySelector('#ds-bins').value), 3, 20);
+      const binW = (max - min)/bins || 1;
+      const classes = [];
+      for(let i = 0; i < bins; i++){
+        const lo = min + i*binW;
+        const hi = lo + binW;
+        const f = sorted.filter(v => v >= lo && (i === bins-1 ? v <= hi : v < hi)).length;
+        classes.push({ lo, hi, mid: (lo+hi)/2, f, rel: f/n });
+      }
+      let cum = 0;
+      classes.forEach(c => { cum += c.f; c.cum = cum; c.relCum = cum/n; });
+
+      cached = {
+        n, sum, mean, min, max, range, q1, q2, q3, iqr,
+        varPop, varSamp, sdPop, sdSamp, cv, modes, maxFreq,
+        skew, kurt, mad, geoMean, harmMean, ss,
+        outliers, lowFence, highFence, bins, binW, classes,
+        sorted, data
+      };
+
+      renderStats(); renderTable(); renderStem(); renderWalk();
+    }
+
+    function renderStats(){
+      const c = cached;
+      const f = v => Number.isFinite(v) ? v.toFixed(4) : '—';
+      const items = [
+        ['تعداد (n)', c.n],
+        ['مجموع (Σx)', f(c.sum)],
+        ['میانگین (x̄)', f(c.mean)],
+        ['میانه (Q2)', f(c.q2)],
+        ['نما (Mode)', c.modes.length <= 3 ? c.modes.join(', ') : c.modes.slice(0,3).join(', ')+'...'],
+        ['کمینه', f(c.min)],
+        ['بیشینه', f(c.max)],
+        ['دامنه (R)', f(c.range)],
+        ['چارک اول (Q1)', f(c.q1)],
+        ['چارک سوم (Q3)', f(c.q3)],
+        ['IQR', f(c.iqr)],
+        ['واریانس نمونه (s²)', f(c.varSamp)],
+        ['واریانس جامعه (σ²)', f(c.varPop)],
+        ['انحراف نمونه (s)', f(c.sdSamp)],
+        ['انحراف جامعه (σ)', f(c.sdPop)],
+        ['ضریب تغییرات (CV%)', f(c.cv)],
+        ['چولگی (Skewness)', f(c.skew)],
+        ['کشیدگی (Excess Kurtosis)', f(c.kurt)],
+        ['MAD', f(c.mad)],
+        ['میانگین هندسی', f(c.geoMean)],
+        ['میانگین هارمونیک', f(c.harmMean)],
+        ['Σx²', f(c.sorted.reduce((a,v)=>a+v*v, 0))],
+        ['تعداد پرت', c.outliers.length]
+      ];
+      el.querySelector('#ds-stats').innerHTML = `
+        <h3 style="margin-top:1rem">📈 آماره‌های کامل</h3>
+        <div class="stats-grid">
+          ${items.map(([k,v]) => `<div class="stat-item"><div class="sk">${k}</div><div class="sv">${v}</div></div>`).join('')}
+        </div>`;
+    }
+
+    function renderTable(){
+      const c = cached;
+      const f4 = v => Number.isFinite(v) ? v.toFixed(4) : '—';
+      el.querySelector('#ds-table').innerHTML = `
+        <h3 style="margin-top:1rem">📋 جدول فراوانی</h3>
+        <table class="freq-table">
+          <thead><tr>
+            <th>کلاس</th><th>مرکز</th><th>f</th><th>فراوانی نسبی</th><th>فراوانی تجمعی</th><th>نسبی تجمعی</th>
+          </tr></thead>
+          <tbody>
+            ${c.classes.map(cl => `
+              <tr>
+                <td>[${cl.lo.toFixed(2)}, ${cl.hi.toFixed(2)})</td>
+                <td>${cl.mid.toFixed(2)}</td>
+                <td>${cl.f}</td>
+                <td>${f4(cl.rel)}</td>
+                <td>${cl.cum}</td>
+                <td>${f4(cl.relCum)}</td>
+              </tr>`).join('')}
+            <tr>
+              <td>جمع</td><td>—</td><td>${c.n}</td><td>1.0000</td><td>${c.n}</td><td>1.0000</td>
+            </tr>
+          </tbody>
+        </table>`;
+    }
+
+    function renderStem(){
+      const c = cached;
+      const maxAbs = Math.max(...c.sorted.map(Math.abs));
+      let shift = 0;
+      if(maxAbs >= 100) shift = 2;
+      else if(maxAbs >= 10) shift = 1;
+      const stemMap = {};
+      c.sorted.forEach(v => {
+        let stem, leaf;
+        if(shift === 0){
+          stem = Math.floor(v);
+          leaf = Math.round((v - stem) * 10);
+        } else {
+          const factor = Math.pow(10, shift);
+          stem = Math.floor(v / factor);
+          leaf = Math.floor((v - stem * factor) / Math.pow(10, shift-1));
+        }
+        if(!stemMap[stem]) stemMap[stem] = [];
+        stemMap[stem].push(leaf);
+      });
+      const stems = Object.keys(stemMap).map(Number).sort((a,b) => a-b);
+      const keyInfo = shift === 0 ? '5 | 5 = 5.5' : shift === 1 ? '1 | 2 = 12' : '12 | 3 = 123';
+
+      el.querySelector('#ds-stem').innerHTML = `
+        <h3 style="margin-top:1rem">🌿 نمودار ساقه و برگ</h3>
+        <div class="stem-leaf">
+          <div class="sl-title">Stem-and-Leaf Display</div>
+          ${stems.map(s => `
+            <div class="sl-row">
+              <div class="sl-stem">${s}</div>
+              <div class="sl-divider">|</div>
+              <div class="sl-leaves">${stemMap[s].sort((a,b) => a-b).join(' ')}</div>
+            </div>`).join('')}
+          <div class="sl-key">کلید: ${keyInfo}</div>
+        </div>`;
+    }
+
+    function renderWalk(){
+      const c = cached;
+      el.querySelector('#ds-walk').innerHTML = stepWalk([
+        {title:'داده‌ها', formula:`n = ${c.n} , Σx = ${c.sum.toFixed(2)}`},
+        {title:'فرمول میانگین', formula:`x̄ = Σx/n = ${c.sum.toFixed(4)} / ${c.n} = ${c.mean.toFixed(6)}`, cls:'hl'},
+        {title:'فرمول واریانس نمونه', formula:`s² = Σ(xᵢ−x̄)² / (n−1)`},
+        {title:'جایگذاری واریانس',
+         formula:`Σ(xᵢ−x̄)² = ${c.ss.toFixed(4)} → s² = ${c.ss.toFixed(4)}/${c.n-1} = ${c.varSamp.toFixed(6)}`},
+        {title:'انحراف معیار', formula:`s = √s² = √${c.varSamp.toFixed(4)} = ${c.sdSamp.toFixed(6)}`, cls:'hl'},
+        {title:'چارک‌ها',
+         formula:`Q1 = ${c.q1.toFixed(4)} , Q2 = ${c.q2.toFixed(4)} , Q3 = ${c.q3.toFixed(4)}`},
+        {title:'دامنه بین‌چارکی', formula:`IQR = Q3 − Q1 = ${c.iqr.toFixed(4)}`},
+        {title:'دامنه پرت',
+         formula:`[Q1 − 1.5·IQR , Q3 + 1.5·IQR] = [${c.lowFence.toFixed(4)} , ${c.highFence.toFixed(4)}]`},
+        {title:'پرت‌ها', cls:'ok',
+         formula:`${c.outliers.length ? c.outliers.slice(0,8).map(v => v.toFixed(2)).join(', ') + (c.outliers.length > 8 ? '...' : '') : 'هیچ پرتی شناسایی نشد'}`},
+        {title:'چولگی',
+         formula:`Skew = (1/n)·Σ((xᵢ−x̄)/σ)³ = ${c.skew.toFixed(4)}`,
+         note: c.skew > 0.5 ? '→ چوله به راست' : c.skew < -0.5 ? '→ چوله به چپ' : '→ تقریباً متقارن'},
+        {title:'کشیدگی',
+         formula:`Kurt = (1/n)·Σ((xᵢ−x̄)/σ)⁴ − 3 = ${c.kurt.toFixed(4)}`,
+         note: c.kurt > 0 ? '→ کشیده‌تر از نرمال' : '→ پهن‌تر از نرمال'}
+      ], '📐 حل گام‌به‌گام آمار توصیفی');
+    }
+
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0, 0, W, H);
+      drawGrid(ctx, W, H, 40, colors, progress);
+      if(!cached) return;
+      const view = el.querySelector('#ds-chart').value;
+      const c = cached;
+
+      if(view === 'hist'){
+        const padL = 50, padT = 30, padB = 50, padR = 20;
+        const plotW = W - padL - padR, plotH = H - padT - padB;
+        const maxF = Math.max(...c.classes.map(cl => cl.f), 1);
+        const cw = plotW / c.bins;
+        c.classes.forEach((cl, i) => {
+          const h = (cl.f/maxF) * plotH * progress;
+          ctx.fillStyle = colors.ac + 'cc';
+          ctx.fillRect(padL + i*cw + 2, padT + plotH - h, cw-4, h);
+        });
+        ctx.strokeStyle = colors.mut; ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT); ctx.lineTo(padL, padT+plotH); ctx.lineTo(padL+plotW, padT+plotH);
+        ctx.stroke();
+        if(progress > 0.6){
+          ctx.fillStyle = colors.mut; ctx.font = '10px monospace'; ctx.textAlign = 'center';
+          ctx.globalAlpha = (progress-0.6)/0.4;
+          c.classes.forEach((cl, i) => {
+            if(c.bins <= 10 || i%2===0) ctx.fillText(cl.mid.toFixed(1), padL + i*cw + cw/2, H - 25);
+          });
+          ctx.globalAlpha = 1;
+        }
+      } else if(view === 'poly'){
+        const padL = 50, padT = 30, padB = 50, padR = 20;
+        const plotW = W - padL - padR, plotH = H - padT - padB;
+        const maxF = Math.max(...c.classes.map(cl => cl.f), 1);
+        const X = v => padL + ((v - c.min)/((c.max - c.min) || 1))*plotW;
+        const Y = v => padT + plotH - (v/maxF)*plotH;
+        ctx.strokeStyle = colors.ac; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        c.classes.forEach((cl, i) => {
+          i ? ctx.lineTo(X(cl.mid), Y(cl.f)) : ctx.moveTo(X(cl.mid), Y(cl.f));
+        });
+        ctx.stroke();
+        c.classes.forEach(cl => {
+          ctx.fillStyle = colors.ac3;
+          ctx.beginPath(); ctx.arc(X(cl.mid), Y(cl.f), 4, 0, Math.PI*2); ctx.fill();
+        });
+      } else if(view === 'ogive'){
+        const padL = 50, padT = 30, padB = 50, padR = 20;
+        const plotW = W - padL - padR, plotH = H - padT - padB;
+        const X = v => padL + ((v - c.min)/((c.max - c.min) || 1))*plotW;
+        const Y = v => padT + plotH - (v/c.n)*plotH;
+        ctx.strokeStyle = colors.ac2; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        c.classes.forEach((cl, i) => {
+          i ? ctx.lineTo(X(cl.hi), Y(cl.cum)) : ctx.moveTo(X(cl.hi), Y(cl.cum));
+        });
+        ctx.stroke();
+        c.classes.forEach(cl => {
+          ctx.fillStyle = colors.ac;
+          ctx.beginPath(); ctx.arc(X(cl.hi), Y(cl.cum), 4, 0, Math.PI*2); ctx.fill();
+        });
+      } else if(view === 'box'){
+        const pad = 60;
+        const xMin = c.min - (c.max - c.min)*0.1;
+        const xMax = c.max + (c.max - c.min)*0.1;
+        const X = v => pad + ((v - xMin)/(xMax - xMin))*(W - 2*pad);
+        const cy = H/2, boxH = 80;
+        const q1p = c.q2 + (c.q1 - c.q2)*progress;
+        const q3p = c.q2 + (c.q3 - c.q2)*progress;
+        ctx.strokeStyle = colors.ac; ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(X(c.min), cy); ctx.lineTo(X(c.max), cy);
+        ctx.stroke();
+        ctx.fillStyle = colors.ac + '55';
+        ctx.fillRect(X(q1p), cy-boxH/2, X(q3p)-X(q1p), boxH);
+        ctx.strokeRect(X(q1p), cy-boxH/2, X(q3p)-X(q1p), boxH);
+        ctx.strokeStyle = colors.ac3; ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(X(c.q2), cy-boxH/2); ctx.lineTo(X(c.q2), cy+boxH/2);
+        ctx.stroke();
+        c.outliers.forEach(v => {
+          ctx.fillStyle = colors.ac3;
+          ctx.beginPath(); ctx.arc(X(v), cy, 5, 0, Math.PI*2); ctx.fill();
+        });
+        if(progress > 0.6){
+          ctx.fillStyle = colors.mut; ctx.font = '11px monospace'; ctx.textAlign = 'center';
+          ctx.globalAlpha = (progress-0.6)/0.4;
+          [['Q1',c.q1],['Med',c.q2],['Q3',c.q3]].forEach(([lbl,v]) => {
+            ctx.fillText(lbl+': '+v.toFixed(1), X(v), cy+boxH/2+20);
+          });
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#ds-run') && (el.querySelector('#ds-run').onclick = () => { compute(); cv._redraw(); });
+    el.querySelector('#ds-data').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 300));
+    el.querySelector('#ds-bins').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 100));
+    el.querySelector('#ds-chart').addEventListener('change', () => cv._redraw());
+    compute();
+    animateCanvas(cv, draw, 700);
+  }
+
+  /* ============================== Tool: Normal ============================== */
+  function toolNormal(el){
+    el.innerHTML = `<h2>🔔 توزیع نرمال <span class="badge-3d">3D</span></h2>
+      <p class="lead">سطح چگالی سه‌بعدی + محاسبه زنده مساحت. با ماوس بچرخانید و زوم کنید.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('n-mu','μ (میانگین)',-5,5,0.1,0)}
+        ${rangeInput('n-sig','σ (انحراف معیار)',0.3,4,0.1,1)}
+        ${rangeInput('n-x1','x₁',-8,8,0.1,-1)}
+        ${rangeInput('n-x2','x₂',-8,8,0.1,1)}
+      </div>
+      <div class="tool-3d-wrap" id="n-3d"></div>
+      <div class="results" id="n-res"></div>
+      <div id="n-walk"></div>`;
+    const container = el.querySelector('#n-3d');
+    const scene = createScene(container, { targetY: 1.8, radius: 22, theta: 0.5, phi: 1.05 });
+    const grid = new THREE.GridHelper(24, 24, 0x555577, 0x333355);
+    grid.position.y = -0.02;
+    scene.scene.add(grid);
+    let surface = null;
+    function rebuild(){
+      const mu = +el.querySelector('#n-mu').value;
+      const sig = Math.max(0.05, +el.querySelector('#n-sig').value);
+      let x1 = +el.querySelector('#n-x1').value, x2 = +el.querySelector('#n-x2').value;
+      if(x1 > x2) [x1, x2] = [x2, x1];
+      syncOutput(el,'n-mu',mu,1); syncOutput(el,'n-sig',sig,1);
+      syncOutput(el,'n-x1',x1,1); syncOutput(el,'n-x2',x2,1);
+      if(surface){ scene.scene.remove(surface); surface.geometry.dispose(); surface.material.dispose(); }
+      const geo = new THREE.PlaneGeometry(20, 1.4, 120, 1);
+      const pos = geo.attributes.position;
+      const colAttr = new Float32Array(pos.count * 3);
+      const cIn = new THREE.Color(0xf472b6), cOut = new THREE.Color(0x8b5cf6);
+      const heightScale = 7.5 / Math.max(sig, 0.3);
+      for(let i = 0; i < pos.count; i++){
+        const px = pos.getX(i);
+        const xv = mu + px * sig * 0.55;
+        const y = normPDF(xv, mu, sig);
+        pos.setZ(i, y * heightScale);
+        const inReg = xv >= x1 && xv <= x2;
+        const c = inReg ? cIn : cOut;
+        colAttr[i*3] = c.r; colAttr[i*3+1] = c.g; colAttr[i*3+2] = c.b;
+      }
+      geo.setAttribute('color', new THREE.BufferAttribute(colAttr, 3));
+      geo.computeVertexNormals();
+      const mat = new THREE.MeshStandardMaterial({
+        vertexColors: true, side: THREE.DoubleSide, roughness: 0.4, metalness: 0.2,
+        transparent: true, opacity: 0.96, emissive: 0x1a0e2c, emissiveIntensity: 0.35
+      });
+      surface = new THREE.Mesh(geo, mat);
+      surface.rotation.x = -Math.PI / 2;
+      scene.scene.add(surface);
+      const z1 = (x1 - mu)/sig, z2 = (x2 - mu)/sig;
+      const p1 = normCDF(x1, mu, sig), p2 = normCDF(x2, mu, sig);
+      const pBetween = p2 - p1;
+      el.querySelector('#n-res').innerHTML = resultCards([
+        [`P(X < ${x1.toFixed(2)})`, fmt(p1, 4)],
+        [`P(${x1.toFixed(2)} < X < ${x2.toFixed(2)})`, fmt(pBetween, 4)],
+        [`P(X > ${x2.toFixed(2)})`, fmt(1 - p2, 4)],
+        ['μ / σ', `${mu.toFixed(2)} / ${sig.toFixed(2)}`]
+      ]);
+      el.querySelector('#n-walk').innerHTML = stepWalk([
+        {title:'فرمول چگالی', formula:`f(x) = 1/(σ√(2π)) · exp[−(x−μ)²/(2σ²)]`,
+         note:`μ = ${mu.toFixed(2)} , σ = ${sig.toFixed(2)}`},
+        {title:'استانداردسازی', formula:`z = (x − μ) / σ`, cls:'hl'},
+        {title:'z کران پایین', formula:`z₁ = (${x1.toFixed(2)} − ${mu.toFixed(2)}) / ${sig.toFixed(2)} = ${z1.toFixed(4)}`},
+        {title:'z کران بالا', formula:`z₂ = (${x2.toFixed(2)} − ${mu.toFixed(2)}) / ${sig.toFixed(2)} = ${z2.toFixed(4)}`},
+        {title:'جایگذاری', formula:`P = Φ(${z2.toFixed(3)}) − Φ(${z1.toFixed(3)})`, cls:'hl'},
+        {title:'مقادیر Φ', formula:`Φ(${z1.toFixed(3)}) = ${p1.toFixed(4)} , Φ(${z2.toFixed(3)}) = ${p2.toFixed(4)}`},
+        {title:'پاسخ نهایی', formula:`P = ${p2.toFixed(4)} − ${p1.toFixed(4)} = ${pBetween.toFixed(6)}`, cls:'ok',
+         note:`حدود ${(pBetween*100).toFixed(2)}٪`}
+      ]);
+    }
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(rebuild, 50)));
+    rebuild();
+  }
+
+  /* ============================== Tool: Bivariate ============================== */
+  function toolBivar(el){
+    el.innerHTML = `<h2>🌋 نرمال دومتغیره <span class="badge-3d">3D</span></h2>
+      <p class="lead">سطح چگالی مشترک با ضریب همبستگی ρ.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('bv-rho','ρ',-0.95,0.95,0.05,0.5)}
+        ${rangeInput('bv-s','σ₁ = σ₂',0.5,3,0.1,1)}
+      </div>
+      <div class="tool-3d-wrap" id="bv-3d"></div>
+      <div class="results" id="bv-res"></div>
+      <div id="bv-walk"></div>`;
+    const container = el.querySelector('#bv-3d');
+    const scene = createScene(container, { targetY: 1.6, radius: 22, theta: 0.7, phi: 1.0 });
+    const grid = new THREE.GridHelper(16, 16, 0x555577, 0x333355);
+    grid.position.y = -0.02; scene.scene.add(grid);
+    let surface = null;
+    function rebuild(){
+      const rho = +el.querySelector('#bv-rho').value;
+      const s = Math.max(0.3, +el.querySelector('#bv-s').value);
+      syncOutput(el,'bv-rho',rho,2); syncOutput(el,'bv-s',s,1);
+      if(surface){ scene.scene.remove(surface); surface.geometry.dispose(); surface.material.dispose(); }
+      const N = 70, W = 10;
+      const geo = new THREE.PlaneGeometry(W, W, N, N);
+      const pos = geo.attributes.position;
+      const colors = new Float32Array(pos.count * 3);
+      const cLow = new THREE.Color(0x22d3ee), cMid = new THREE.Color(0x8b5cf6), cHi = new THREE.Color(0xf472b6);
+      const rho2 = rho*rho, denom = 2*(1-rho2);
+      let maxZ = 0;
+      const tmp = new Float32Array(pos.count);
+      for(let i = 0; i < pos.count; i++){
+        const x = pos.getX(i)*s*0.5, y = pos.getY(i)*s*0.5;
+        const expo = -(x*x - 2*rho*x*y + y*y) / (denom * s * s);
+        const z = Math.exp(expo) / (2*Math.PI*s*s*Math.sqrt(1-rho2));
+        tmp[i] = z; if(z > maxZ) maxZ = z;
+      }
+      for(let i = 0; i < pos.count; i++){
+        const v = tmp[i]/maxZ;
+        pos.setZ(i, v*7);
+        const c = v < 0.5 ? cLow.clone().lerp(cMid, v*2) : cMid.clone().lerp(cHi, (v-0.5)*2);
+        colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+      }
+      geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geo.computeVertexNormals();
+      const mat = new THREE.MeshStandardMaterial({
+        vertexColors: true, side: THREE.DoubleSide, roughness: 0.35, metalness: 0.3,
+        transparent: true, opacity: 0.95, emissive: 0x150a2a, emissiveIntensity: 0.4
+      });
+      surface = new THREE.Mesh(geo, mat);
+      surface.rotation.x = -Math.PI/2;
+      scene.scene.add(surface);
+      el.querySelector('#bv-res').innerHTML = resultCards([
+        ['ρ', rho.toFixed(2)], ['σ', s.toFixed(2)],
+        ['رابطه', rho > 0.3 ? 'مستقیم' : rho < -0.3 ? 'معکوس' : 'ضعیف'],
+        ['√(1−ρ²)', Math.sqrt(1-rho*rho).toFixed(4)]
+      ]);
+      el.querySelector('#bv-walk').innerHTML = stepWalk([
+        {title:'فرمول چگالی مشترک', cls:'hl',
+         formula:`f(x,y) = 1/(2πσ²√(1−ρ²)) · exp[−(x²−2ρxy+y²)/(2(1−ρ²)σ²)]`},
+        {title:'جایگذاری', formula:`ρ = ${rho.toFixed(2)} , σ = ${s.toFixed(2)}`},
+        {title:'1 − ρ²', formula:`1 − ${(rho*rho).toFixed(4)} = ${(1-rho*rho).toFixed(4)}`}
+      ]);
+    }
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(rebuild, 60)));
+    rebuild();
+  }
+
+  /* ============================== Tool: Binomial ============================== */
+  function toolBinom(el){
+    el.innerHTML = `<h2>🎲 توزیع دوجمله‌ای</h2><p class="lead">احتمال موفقیت در n آزمایش مستقل.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('b-n','n',1,40,1,10)}
+        ${rangeInput('b-p','p',0.01,0.99,0.01,0.5)}
+        ${rangeInput('b-k','k',0,40,1,5)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="b-res"></div>
+      <div id="b-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const get = id => +el.querySelector('#'+id).value;
+    function draw(progress = 1){
+      const n = Math.max(1, Math.round(get('b-n')));
+      const p = clamp(get('b-p'), 0.001, 0.999);
+      let k = clamp(Math.round(get('b-k')), 0, n);
+      el.querySelector('#b-k').max = n; el.querySelector('#b-k').value = k;
+      syncOutput(el,'b-n',n); syncOutput(el,'b-p',p,2); syncOutput(el,'b-k',k);
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const pad = 45, cw = (W - 2*pad) / (n + 1);
+      let maxP = 0;
+      for(let i=0;i<=n;i++) maxP = Math.max(maxP, binomPMF(n,i,p));
+      if(maxP === 0) maxP = 1;
+      for(let i=0;i<=n;i++){
+        const v = binomPMF(n,i,p), h = (v/maxP)*(H-80)*progress;
+        const x = pad + i*cw + 3, y = H - h - 30;
+        ctx.fillStyle = (i === k) ? colors.ac3 : (colors.ac + 'cc');
+        ctx.fillRect(x, y, Math.max(2, cw-6), h);
+        if(cw > 15 && progress > 0.6){
+          ctx.fillStyle = colors.mut; ctx.font = '10px monospace'; ctx.textAlign = 'center';
+          ctx.globalAlpha = (progress-0.6)/0.4;
+          ctx.fillText(i, x + (cw-6)/2, H - 12);
+          ctx.globalAlpha = 1;
+        }
+      }
+      const pExact = binomPMF(n,k,p);
+      const Cnk = comb(n,k);
+      let pLess = 0; for(let i=0;i<=k;i++) pLess += binomPMF(n,i,p);
+      el.querySelector('#b-res').innerHTML = resultCards([
+        [`P(X = ${k})`, fmt(pExact,4)],
+        [`P(X ≤ ${k})`, fmt(pLess,4)],
+        ['μ = np', fmt(n*p,3)],
+        ['σ² = np(1-p)', fmt(n*p*(1-p),3)]
+      ]);
+      el.querySelector('#b-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula:`P(X=k) = C(n,k) · pᵏ · (1−p)ⁿ⁻ᵏ`},
+        {title:'جایگذاری', formula:`n = ${n} , k = ${k} , p = ${p.toFixed(3)}`},
+        {title:'C(n,k)', formula:`C(${n},${k}) = ${Cnk.toLocaleString()}`},
+        {title:'p^k', formula:`${p.toFixed(3)}^${k} = ${Math.pow(p,k).toExponential(4)}`},
+        {title:'(1−p)^(n−k)', formula:`${(1-p).toFixed(3)}^${n-k} = ${Math.pow(1-p,n-k).toExponential(4)}`},
+        {title:'ضرب', formula:`P = ${Cnk.toLocaleString()} × ${Math.pow(p,k).toExponential(4)} × ${Math.pow(1-p,n-k).toExponential(4)} = ${pExact.toFixed(6)}`, cls:'ok'}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: Poisson ============================== */
+  function toolPoisson(el){
+    el.innerHTML = `<h2>📮 توزیع پواسون</h2><p class="lead">تعداد رخدادها با نرخ λ.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('p-lam','λ',0.1,20,0.1,3)}
+        ${rangeInput('p-k','k',0,40,1,3)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="p-res"></div>
+      <div id="p-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const get = id => +el.querySelector('#'+id).value;
+    function draw(progress = 1){
+      const lam = Math.max(0.05, get('p-lam'));
+      const k = Math.max(0, Math.round(get('p-k')));
+      syncOutput(el,'p-lam',lam,1); syncOutput(el,'p-k',k);
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const pad = 45;
+      const nShow = Math.min(Math.max(Math.ceil(lam*3) + 3, 10), 45);
+      const cw = (W - 2*pad) / (nShow + 1);
+      let maxP = 0;
+      for(let i=0;i<=nShow;i++) maxP = Math.max(maxP, poissonPMF(lam,i));
+      if(maxP === 0) maxP = 1;
+      for(let i=0;i<=nShow;i++){
+        const v = poissonPMF(lam,i), h = (v/maxP)*(H-80)*progress;
+        const x = pad + i*cw + 3, y = H - h - 30;
+        ctx.fillStyle = (i === k) ? colors.ac3 : (colors.ac + 'cc');
+        ctx.fillRect(x, y, Math.max(2, cw-6), h);
+      }
+      const pExact = poissonPMF(lam,k);
+      let pLess = 0; for(let i=0;i<=k;i++) pLess += poissonPMF(lam,i);
+      el.querySelector('#p-res').innerHTML = resultCards([
+        [`P(X = ${k})`, fmt(pExact,4)],
+        [`P(X ≤ ${k})`, fmt(pLess,4)],
+        ['μ = σ² = λ', fmt(lam,3)],
+        ['σ', fmt(Math.sqrt(lam),3)]
+      ]);
+      el.querySelector('#p-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula:`P(X=k) = (λᵏ · e^(−λ)) / k!`},
+        {title:'جایگذاری', formula:`λ = ${lam.toFixed(2)} , k = ${k}`},
+        {title:'λ^k', formula:`${lam.toFixed(2)}^${k} = ${Math.pow(lam,k).toExponential(4)}`},
+        {title:'e^(−λ)', formula:`e^(−${lam.toFixed(2)}) = ${Math.exp(-lam).toFixed(6)}`},
+        {title:'پاسخ', cls:'ok', formula:`P = ${pExact.toFixed(6)}`}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: Geometric ============================== */
+  function toolGeom(el){
+    el.innerHTML = `<h2>🔁 توزیع هندسی</h2><p class="lead">تعداد آزمایش‌ها تا نخستین موفقیت.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('g-p','p',0.05,0.95,0.01,0.3)}
+        ${rangeInput('g-k','k',1,30,1,3)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="g-res"></div>
+      <div id="g-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const get = id => +el.querySelector('#'+id).value;
+    function draw(progress = 1){
+      const p = clamp(get('g-p'), 0.01, 0.99);
+      const k = Math.max(1, Math.round(get('g-k')));
+      syncOutput(el,'g-p',p,2); syncOutput(el,'g-k',k);
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const nShow = Math.min(30, Math.ceil(Math.log(0.001)/Math.log(1-p)));
+      const pad = 45, cw = (W - 2*pad) / (nShow + 1);
+      let maxP = 0;
+      for(let i=1;i<=nShow;i++) maxP = Math.max(maxP, geomPMF(p,i));
+      if(maxP === 0) maxP = 1;
+      for(let i=1;i<=nShow;i++){
+        const v = geomPMF(p,i), h = (v/maxP)*(H-80)*progress;
+        const x = pad + (i-1)*cw + 3, y = H - h - 30;
+        ctx.fillStyle = (i === k) ? colors.ac3 : (colors.ac + 'cc');
+        ctx.fillRect(x, y, Math.max(2, cw-6), h);
+      }
+      let pLess = 0; for(let i=1;i<=k;i++) pLess += geomPMF(p,i);
+      el.querySelector('#g-res').innerHTML = resultCards([
+        [`P(X = ${k})`, fmt(geomPMF(p,k),4)],
+        [`P(X ≤ ${k})`, fmt(pLess,4)],
+        ['μ = 1/p', fmt(1/p,3)],
+        ['σ² = (1-p)/p²', fmt((1-p)/(p*p),3)]
+      ]);
+      el.querySelector('#g-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula:`P(X=k) = (1−p)^(k−1) · p`},
+        {title:'جایگذاری', formula:`p = ${p.toFixed(3)} , k = ${k}`},
+        {title:'(1−p)^(k−1)', formula:`${(1-p).toFixed(3)}^${k-1} = ${Math.pow(1-p,k-1).toExponential(4)}`},
+        {title:'پاسخ', cls:'ok', formula:`P = ${geomPMF(p,k).toFixed(6)}`}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: Exponential ============================== */
+  function toolExpo(el){
+    el.innerHTML = `<h2>⏱️ توزیع نمایی</h2><p class="lead">زمان بین رخدادها با نرخ λ.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('e-lam','λ',0.1,5,0.1,1)}
+        ${rangeInput('e-x1','x₁',0,10,0.1,0)}
+        ${rangeInput('e-x2','x₂',0,10,0.1,2)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="e-res"></div>
+      <div id="e-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const get = id => +el.querySelector('#'+id).value;
+    function draw(progress = 1){
+      const lam = Math.max(0.05, get('e-lam'));
+      let x1 = Math.max(0, get('e-x1')), x2 = Math.max(0, get('e-x2'));
+      if(x1 > x2) [x1, x2] = [x2, x1];
+      syncOutput(el,'e-lam',lam,1); syncOutput(el,'e-x1',x1,1); syncOutput(el,'e-x2',x2,1);
+      const xMax = Math.max(6/lam, x2*1.4, 1);
+      const pdf = x => x < 0 ? 0 : lam*Math.exp(-lam*x);
+      const cdf = x => x < 0 ? 0 : 1 - Math.exp(-lam*x);
+      const yMax = pdf(0) || 1;
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const X = v => v/xMax*W, Y = v => H - (v/(yMax*1.15))*H*progress;
+      ctx.fillStyle = colors.ac + '55';
+      ctx.beginPath(); ctx.moveTo(X(x1), H);
+      for(let t=x1; t<=x2; t += xMax/600) ctx.lineTo(X(t), Y(pdf(t)));
+      ctx.lineTo(X(x2), H); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const stopPx = W * Math.min(1, progress * 1.05);
+      for(let px=0; px<=stopPx; px++){
+        const t = px/W*xMax, py = Y(pdf(t));
+        px ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.stroke();
+      const pBetween = cdf(x2) - cdf(x1);
+      const term1 = Math.exp(-lam*x1), term2 = Math.exp(-lam*x2);
+      el.querySelector('#e-res').innerHTML = resultCards([
+        [`P(${x1.toFixed(2)} < X < ${x2.toFixed(2)})`, fmt(pBetween,4)],
+        ['میانگین (1/λ)', fmt(1/lam,4)],
+        ['واریانس (1/λ²)', fmt(1/(lam*lam),4)]
+      ]);
+      el.querySelector('#e-walk').innerHTML = stepWalk([
+        {title:'چگالی', cls:'hl', formula:`f(x) = λ · e^(−λx)`},
+        {title:'CDF', formula:`F(x) = 1 − e^(−λx)`},
+        {title:'احتمال بازه', formula:`P(a < X < b) = e^(−λa) − e^(−λb)`, cls:'hl'},
+        {title:'جایگذاری', formula:`λ = ${lam.toFixed(2)} , a = ${x1.toFixed(2)} , b = ${x2.toFixed(2)}`},
+        {title:'e^(−λa)', formula:`${term1.toFixed(6)}`},
+        {title:'e^(−λb)', formula:`${term2.toFixed(6)}`},
+        {title:'پاسخ', cls:'ok', formula:`P = ${pBetween.toFixed(6)}`}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: Uniform ============================== */
+  function toolUniform(el){
+    el.innerHTML = `<h2>📏 توزیع یکنواخت</h2><p class="lead">احتمال پیوسته در بازه [a, b].</p>
+      <div class="ctrl-grid">
+        ${rangeInput('u-a','a',-5,0,0.1,-1)}
+        ${rangeInput('u-b','b',0,5,0.1,2)}
+        ${rangeInput('u-x1','x₁',-6,6,0.1,-0.5)}
+        ${rangeInput('u-x2','x₂',-6,6,0.1,1.5)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="300"></canvas></div>
+      <div class="results" id="u-res"></div>
+      <div id="u-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 300);
+    const get = id => +el.querySelector('#'+id).value;
+    function draw(progress = 1){
+      let a = get('u-a'), b = get('u-b');
+      if(a >= b) b = a + 0.1;
+      let x1 = get('u-x1'), x2 = get('u-x2');
+      if(x1 > x2) [x1, x2] = [x2, x1];
+      syncOutput(el,'u-a',a,1); syncOutput(el,'u-b',b,1);
+      syncOutput(el,'u-x1',x1,1); syncOutput(el,'u-x2',x2,1);
+      const pad = Math.max(1, (b-a)*0.5);
+      const xMin = a-pad, xMax = b+pad, span = xMax - xMin;
+      const X = v => (v - xMin)/span*W;
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const h = 1/(b-a);
+      const yH = (h/(h*1.4))*H*progress;
+      const xa = Math.max(a, x1), xb = Math.min(b, x2);
+      if(xb > xa){
+        ctx.fillStyle = colors.ac + '55';
+        ctx.fillRect(X(xa), H - yH, X(xb) - X(xa), yH);
+      }
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(X(a), H); ctx.lineTo(X(a), H - yH);
+      ctx.lineTo(X(b), H - yH); ctx.lineTo(X(b), H); ctx.stroke();
+      const pBetween = xb > xa ? (xb - xa)/(b - a) : 0;
+      el.querySelector('#u-res').innerHTML = resultCards([
+        [`P(${x1.toFixed(2)} < X < ${x2.toFixed(2)})`, fmt(pBetween,4)],
+        ['میانگین', fmt((a+b)/2,4)],
+        ['واریانس', fmt((b-a)**2/12,4)],
+        ['چگالی', fmt(h,4)]
+      ]);
+      el.querySelector('#u-walk').innerHTML = stepWalk([
+        {title:'چگالی', cls:'hl', formula:`f(x) = 1/(b−a)`},
+        {title:'جایگذاری', formula:`a = ${a.toFixed(2)} , b = ${b.toFixed(2)}`},
+        {title:'طول مؤثر', formula:`[max(a,x₁), min(b,x₂)] = [${xa.toFixed(2)}, ${xb.toFixed(2)}]`},
+        {title:'پاسخ', cls:'ok', formula:`P = ${(xb-xa).toFixed(3)} / ${(b-a).toFixed(3)} = ${pBetween.toFixed(6)}`}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: t / Chi ============================== */
+  function toolT(el){
+    el.innerHTML = `<h2>📐 توزیع t و کای‌دو</h2><p class="lead">مقایسه با درجه آزادی دلخواه.</p>
+      <div class="ctrl-grid">
+        ${selectInput('t-kind','نوع',[['t','t-استیودنت'],['chi','کای‌دو']])}
+        ${rangeInput('t-df','df',1,30,1,5)}
+        ${rangeInput('t-x1','x₁',-6,30,0.1,-2)}
+        ${rangeInput('t-x2','x₂',-6,30,0.1,2)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="t-res"></div>
+      <div id="t-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const get = id => el.querySelector('#'+id).value;
+    const getN = id => +el.querySelector('#'+id).value;
+    function tPDF(x, df){ return Math.exp(gammaLn((df+1)/2) - gammaLn(df/2) - 0.5*Math.log(df*Math.PI)) * Math.pow(1 + x*x/df, -(df+1)/2); }
+    function chiPDF(x, df){ if(x <= 0) return 0; return Math.exp((df/2 - 1)*Math.log(x) - x/2 - (df/2)*Math.log(2) - gammaLn(df/2)); }
+    function integrate(f, a, b, n=400){ if(b <= a) return 0; const h = (b-a)/n; let s = (f(a) + f(b))/2; for(let i=1;i<n;i++) s += f(a+i*h); return s*h; }
+    function draw(progress = 1){
+      const kind = get('t-kind');
+      const df = Math.max(1, Math.round(getN('t-df')));
+      let x1 = getN('t-x1'), x2 = getN('t-x2');
+      if(x1 > x2) [x1, x2] = [x2, x1];
+      syncOutput(el,'t-df',df); syncOutput(el,'t-x1',x1,1); syncOutput(el,'t-x2',x2,1);
+      const pdf = kind === 't' ? x => tPDF(x, df) : x => chiPDF(x, df);
+      const xMin = kind === 't' ? -6 : 0;
+      const xMax = kind === 't' ? 6 : Math.max(df*2.5, 20);
+      const span = xMax - xMin;
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      let yMax = 0;
+      for(let i=0;i<=200;i++){ const x = xMin + i/200*span; yMax = Math.max(yMax, pdf(x)); }
+      if(!Number.isFinite(yMax) || yMax <= 0) yMax = 1;
+      const X = v => (v - xMin)/span*W;
+      const Y = v => H - (v/(yMax*1.15))*H*progress;
+      ctx.fillStyle = colors.ac + '55';
+      ctx.beginPath(); ctx.moveTo(X(x1), H);
+      for(let t=x1; t<=x2; t += span/600) ctx.lineTo(X(t), Y(pdf(t)));
+      ctx.lineTo(X(x2), H); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const stopPx = W * Math.min(1, progress * 1.05);
+      for(let px=0; px<=stopPx; px++){
+        const t = xMin + px/W*span, py = Y(pdf(t));
+        px ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+      }
+      ctx.stroke();
+      const pBetween = integrate(pdf, x1, x2);
+      el.querySelector('#t-res').innerHTML = resultCards([
+        ['df', df],
+        [`P(${x1.toFixed(2)} < X < ${x2.toFixed(2)})`, fmt(pBetween,4)],
+        ['نوع', kind === 't' ? 't-استیودنت' : 'کای‌دو']
+      ]);
+      el.querySelector('#t-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula: kind === 't'
+          ? `f(x) = Γ((ν+1)/2) / (√(νπ)·Γ(ν/2)) · (1 + x²/ν)^(−(ν+1)/2)`
+          : `f(x) = 1/(2^(ν/2)·Γ(ν/2)) · x^(ν/2−1) · e^(−x/2)`},
+        {title:'جایگذاری', formula:`ν = ${df}`},
+        {title:'انتگرال‌گیری عددی', cls:'ok', formula:`P = ${pBetween.toFixed(6)}`}
+      ]);
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(() => cv._redrawInstant(), 60)));
+    animateCanvas(cv, draw, 550);
+  }
+
+  /* ============================== Tool: Dice ============================== */
+  function toolDice(el){
+    el.innerHTML = `<h2>🎲 شبیه‌ساز پرتاب تاس <span class="badge-3d">3D</span></h2>
+      <p class="lead">تاس سه‌بعدی واقعی + قانون اعداد بزرگ.</p>
+      <div class="ctrl-grid">
+        ${rangeInput('dc-n','تعداد پرتاب',10,2000,10,200)}
+        ${selectInput('dc-faces','نوع',[['6','۶ وجهی'],['12','۱۲ وجهی']])}
+      </div>
+      <div class="btn-row">
+        <button class="b pri" id="dc-run" type="button">🎲 پرتاب</button>
+        <button class="b" id="dc-auto" type="button">🔄 خودکار</button>
+        <button class="b" id="dc-reset" type="button">↺ ریست</button>
+      </div>
+      <div class="tool-3d-wrap" id="dc-3d"></div>
+      <div class="results" id="dc-res"></div>
+      <div id="dc-walk"></div>`;
+    const container = el.querySelector('#dc-3d');
+    const scene = createScene(container, { targetY: 0.2, radius: 11, theta: 0.6, phi: 1.1 });
+    const dice = makeDiceMesh();
+    scene.scene.add(dice);
+    const floor = new THREE.Mesh(
+      new THREE.CircleGeometry(6, 48),
+      new THREE.MeshStandardMaterial({ color: 0x1a1830, roughness: 0.9, transparent: true, opacity: 0.65 })
+    );
+    floor.rotation.x = -Math.PI/2; floor.position.y = -1.25;
+    scene.scene.add(floor);
+    let totalRolls = 0;
+    let counts = [0,0,0,0,0,0];
+    let autoTimer = null;
+    const myGen = generation;
+    let spinning = false;
+    const spinVel = { x:0, y:0, z:0 };
+    function spinLoop(){
+      if(myGen !== generation) return;
+      if(spinning){
+        dice.rotation.x += spinVel.x;
+        dice.rotation.y += spinVel.y;
+        dice.rotation.z += spinVel.z;
+        spinVel.x *= 0.965; spinVel.y *= 0.965; spinVel.z *= 0.965;
+        if(Math.abs(spinVel.x)+Math.abs(spinVel.y)+Math.abs(spinVel.z) < 0.01) spinning = false;
+      } else { dice.rotation.y += 0.004; }
+      requestAnimationFrame(spinLoop);
+    }
+    spinLoop();
+    function runRolls(n, faces){
+      if(counts.length !== faces) counts = new Array(faces).fill(0);
+      for(let i=0;i<n;i++) counts[Math.floor(Math.random()*faces)]++;
+      totalRolls += n;
+      spinning = true;
+      spinVel.x = (Math.random()-0.5)*0.6;
+      spinVel.y = (Math.random()-0.5)*0.8;
+      spinVel.z = (Math.random()-0.5)*0.5;
+      updateResults(faces);
+    }
+    function updateResults(faces){
+      const empiric = totalRolls ? counts.reduce((s,v,i) => s + v*(i+1), 0)/totalRolls : 0;
+      const expected = (faces+1)/2;
+      const error = Math.abs(empiric - expected);
+      el.querySelector('#dc-res').innerHTML = resultCards([
+        ['مجموع', totalRolls],
+        ['میانگین تجربی', fmt(empiric,3)],
+        ['امید نظری', expected.toFixed(1)],
+        ['خطا', fmt(error,3)]
+      ]);
+      const detail = counts.map((c, i) => `<span class="sm-formula" style="margin:2px">${i+1}: ${c}</span>`).join(' ');
+      el.querySelector('#dc-walk').innerHTML = stepWalk([
+        {title:'امید ریاضی', cls:'hl', formula:`E[X] = ${expected.toFixed(2)}`},
+        {title:'فرمول میانگین تجربی', formula:`X̄ₙ = (1/n) ΣXᵢ`},
+        {title:'فراوانی‌ها', note: detail},
+        {title:'میانگین', cls:'hl', formula:`X̄ = ${empiric.toFixed(4)}`},
+        {title:'خطا', cls:'ok', formula:`|X̄ − μ| = ${error.toFixed(4)}`}
+      ]);
+    }
+    el.querySelector('#dc-run').onclick = () => {
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; el.querySelector('#dc-auto').textContent = '🔄 خودکار'; }
+      runRolls(+el.querySelector('#dc-n').value, +el.querySelector('#dc-faces').value);
+    };
+    el.querySelector('#dc-auto').onclick = function(){
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; this.textContent = '🔄 خودکار'; return; }
+      this.textContent = '⏹️ توقف';
+      const faces = +el.querySelector('#dc-faces').value;
+      autoTimer = setInterval(() => runRolls(30, faces), 120);
+    };
+    el.querySelector('#dc-reset').onclick = () => {
+      totalRolls = 0; counts = new Array(+el.querySelector('#dc-faces').value).fill(0);
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+      updateResults(+el.querySelector('#dc-faces').value);
+      toast('ریست شد');
+    };
+    el.querySelector('#dc-faces').onchange = function(){
+      totalRolls = 0; counts = new Array(+this.value).fill(0); updateResults(+this.value);
+    };
+    updateResults(6);
+  }
+
+  /* ============================== Tool: Coin ============================== */
+  function toolCoin(el){
+    el.innerHTML = `<h2>🪙 شبیه‌ساز پرتاب سکه <span class="badge-3d">3D</span></h2>
+      <p class="lead">سکه سه‌بعدی + قانون اعداد بزرگ.</p>
+      <div class="ctrl-grid">${rangeInput('cn-n','تعداد پرتاب',10,2000,10,100)}</div>
+      <div class="btn-row">
+        <button class="b pri" id="cn-run" type="button">🪙 پرتاب</button>
+        <button class="b" id="cn-auto" type="button">🔄 خودکار</button>
+        <button class="b" id="cn-reset" type="button">↺ ریست</button>
+      </div>
+      <div class="tool-3d-wrap" id="cn-3d"></div>
+      <div class="results" id="cn-res"></div>
+      <div id="cn-walk"></div>`;
+    const container = el.querySelector('#cn-3d');
+    const scene = createScene(container, { targetY: 0.2, radius: 9, theta: 0.6, phi: 1.0 });
+    const coin = makeCoinMesh();
+    scene.scene.add(coin);
+    let total = 0, heads = 0, tails = 0;
+    let autoTimer = null;
+    const myGen = generation;
+    let flipping = false, flipSpeed = 0, flipAngle = 0;
+    function flipLoop(){
+      if(myGen !== generation) return;
+      if(flipping){
+        flipAngle += flipSpeed;
+        coin.rotation.x = flipAngle;
+        flipSpeed *= 0.985;
+        if(flipSpeed < 0.02){
+          flipping = false;
+          coin.rotation.x = Math.round(coin.rotation.x / Math.PI) * Math.PI;
+        }
+      } else { coin.rotation.y += 0.008; }
+      requestAnimationFrame(flipLoop);
+    }
+    flipLoop();
+    function runCoins(n){
+      for(let i=0;i<n;i++){ if(Math.random() < 0.5) heads++; else tails++; }
+      total += n;
+      flipping = true;
+      flipSpeed = 0.35 + Math.random()*0.25;
+      updateUI();
+    }
+    function updateUI(){
+      const headsPct = total > 0 ? (heads/total)*100 : 0;
+      const error = Math.abs(headsPct - 50);
+      el.querySelector('#cn-res').innerHTML = resultCards([
+        ['مجموع', total],
+        ['شیر', headsPct.toFixed(2)+'%'],
+        ['خط', (100-headsPct).toFixed(2)+'%'],
+        ['اختلاف از ۵۰٪', error.toFixed(2)+'%']
+      ]);
+      const headsProp = total > 0 ? heads/total : 0;
+      el.querySelector('#cn-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula:`P̂(شیر) = تعداد شیرها / تعداد کل`},
+        {title:'جایگذاری', formula:`P̂ = ${heads} / ${total}`},
+        {title:'نتیجه', cls:'hl', formula:`P̂ = ${(headsProp*100).toFixed(2)}%`},
+        {title:'نظری', formula:`P(شیر) = 50%`},
+        {title:'خطا', cls:'ok', formula:`|P̂ − 0.5| = ${Math.abs(headsProp - 0.5).toFixed(4)}`}
+      ]);
+    }
+    el.querySelector('#cn-run').onclick = () => {
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; el.querySelector('#cn-auto').textContent = '🔄 خودکار'; }
+      runCoins(+el.querySelector('#cn-n').value);
+    };
+    el.querySelector('#cn-auto').onclick = function(){
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; this.textContent = '🔄 خودکار'; return; }
+      this.textContent = '⏹️ توقف';
+      autoTimer = setInterval(() => runCoins(40), 90);
+    };
+    el.querySelector('#cn-reset').onclick = () => {
+      total = 0; heads = 0; tails = 0;
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+      updateUI(); toast('ریست شد');
+    };
+    updateUI();
+  }
+
+  /* ============================== Tool: Monte Carlo ============================== */
+  function toolMonteCarlo(el){
+    el.innerHTML = `<h2>🎰 مونت‌کارلو</h2><p class="lead">همگرایی میانگین نمونه به امید ریاضی.</p>
+      <div class="ctrl-grid">
+        ${selectInput('mc-kind','متغیر',[['dice','تاس'],['coin','سکه'],['normal','نرمال']])}
+        ${rangeInput('mc-n','تعداد',50,5000,50,500)}
+      </div>
+      <div class="btn-row"><button class="b pri" id="mc-run" type="button">🎲 اجرا</button></div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="mc-res"></div>
+      <div id="mc-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    let lastRunning = null, lastExpected = 0, lastMean = 0;
+    function regenerate(){
+      const kind = el.querySelector('#mc-kind').value;
+      const N = Math.max(10, Math.round(+el.querySelector('#mc-n').value));
+      syncOutput(el,'mc-n',N);
+      const running = [];
+      let sum = 0;
+      for(let i=0;i<N;i++){
+        let v;
+        if(kind === 'dice') v = 1 + Math.floor(Math.random()*6);
+        else if(kind === 'coin') v = Math.random() < 0.5 ? 0 : 1;
+        else { const u1 = Math.max(Math.random(), 1e-9), u2 = Math.random();
+               v = Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2); }
+        sum += v; running.push(sum/(i+1));
+      }
+      lastRunning = running;
+      lastExpected = { dice:3.5, coin:0.5, normal:0 }[kind];
+      lastMean = sum/N;
+      const err = Math.abs(lastMean - lastExpected);
+      el.querySelector('#mc-res').innerHTML = resultCards([
+        ['N', N], ['میانگین تجربی', fmt(lastMean,4)],
+        ['امید نظری', lastExpected], ['خطا', fmt(err,4)]
+      ]);
+      el.querySelector('#mc-walk').innerHTML = stepWalk([
+        {title:'LLN', cls:'hl', formula:`X̄ₙ → μ   وقتی n → ∞`},
+        {title:'امید نظری', formula:`μ = ${lastExpected}`},
+        {title:'میانگین تجربی', formula:`X̄ = ${lastMean.toFixed(4)}`},
+        {title:'خطا', cls:'ok', formula:`|X̄ − μ| = ${err.toFixed(4)}`}
+      ]);
+    }
+    function draw(progress = 1){
+      if(!lastRunning) return;
+      const running = lastRunning;
+      const N = running.length;
+      const expected = lastExpected;
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      let minR = Math.min(...running), maxR = Math.max(...running);
+      minR = Math.min(minR, expected - 0.4); maxR = Math.max(maxR, expected + 0.4);
+      const pad = 40, plotH = H - 70, plotW = W - 80;
+      const X = i => pad + (i/(N-1))*plotW;
+      const Y = v => H - 40 - ((v - minR)/(maxR - minR))*plotH;
+      ctx.strokeStyle = colors.ac3; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+      ctx.beginPath(); ctx.moveTo(pad, Y(expected)); ctx.lineTo(W - 40, Y(expected)); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const maxI = Math.floor((N-1) * progress);
+      for(let i=0; i<=maxI; i++){
+        const px = X(i), py = Y(running[i]);
+        i ? ctx.lineTo(px,py) : ctx.moveTo(px,py);
+      }
+      ctx.stroke();
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#mc-run').onclick = () => { regenerate(); cv._redraw(); };
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(() => { regenerate(); cv._redrawInstant(); }, 120)));
+    regenerate();
+    animateCanvas(cv, draw, 700);
+  }
+
+  /* ============================== Tool: CLT ============================== */
+  function toolCLT(el){
+    el.innerHTML = `<h2>🌊 قضیه حد مرکزی</h2><p class="lead">میانگین نمونه‌ها از هر توزیعی به نرمال میل می‌کند.</p>
+      <div class="ctrl-grid">
+        ${selectInput('clt-pop','جامعه',[['uniform','یکنواخت'],['expo','نمایی'],['dice','تاس']])}
+        ${rangeInput('clt-n','n',1,50,1,10)}
+        ${rangeInput('clt-k','K',100,3000,50,800)}
+      </div>
+      <div class="btn-row"><button class="b pri" id="clt-run" type="button">🌊 اجرا</button></div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="360"></canvas></div>
+      <div class="results" id="clt-res"></div>
+      <div id="clt-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 360);
+    let simData = null;
+    let popMu = 0, popSig = 0;
+    function sampleFrom(kind){
+      if(kind === 'uniform') return Math.random();
+      if(kind === 'expo') return -Math.log(1 - Math.random());
+      return 1 + Math.floor(Math.random()*6);
+    }
+    function popStats(kind){
+      if(kind === 'uniform') return {mu: 0.5, sig: Math.sqrt(1/12)};
+      if(kind === 'expo') return {mu: 1, sig: 1};
+      return {mu: 3.5, sig: Math.sqrt(35/12)};
+    }
+    function regenerate(){
+      const kind = el.querySelector('#clt-pop').value;
+      const n = Math.max(1, Math.round(+el.querySelector('#clt-n').value));
+      const K = Math.max(50, Math.round(+el.querySelector('#clt-k').value));
+      syncOutput(el,'clt-n',n); syncOutput(el,'clt-k',K);
+      const means = new Array(K);
+      for(let k=0;k<K;k++){
+        let s = 0;
+        for(let i=0;i<n;i++) s += sampleFrom(kind);
+        means[k] = s/n;
+      }
+      const meanOfMeans = means.reduce((a,b) => a+b, 0)/K;
+      const varOfMeans = means.reduce((a,b) => a + (b-meanOfMeans)**2, 0)/K;
+      const sdOfMeans = Math.sqrt(varOfMeans) || 1e-6;
+      const bins = 25;
+      const lo = Math.min(...means), hi = Math.max(...means);
+      const binW = (hi - lo)/bins || 0.1;
+      const counts = new Array(bins).fill(0);
+      means.forEach(v => {
+        let idx = Math.floor((v - lo)/binW);
+        if(idx >= bins) idx = bins-1;
+        if(idx < 0) idx = 0;
+        counts[idx]++;
+      });
+      simData = { n, K, lo, hi, bins, counts, meanOfMeans, sdOfMeans };
+      const ps = popStats(kind);
+      popMu = ps.mu; popSig = ps.sig;
+      const theoreticalSE = popSig / Math.sqrt(n);
+      el.querySelector('#clt-res').innerHTML = resultCards([
+        ['n', n], ['K', K],
+        ['میانگین تجربی', fmt(meanOfMeans,4)],
+        ['SD تجربی', fmt(sdOfMeans,4)]
+      ]);
+      el.querySelector('#clt-walk').innerHTML = stepWalk([
+        {title:'CLT', cls:'hl', formula:`X̄ ~ N(μ, σ²/n)`},
+        {title:'پارامترها', formula:`μ = ${popMu.toFixed(4)} , σ = ${popSig.toFixed(4)}`},
+        {title:'SD نظری', formula:`σ/√n = ${popSig.toFixed(4)}/√${n} = ${theoreticalSE.toFixed(4)}`},
+        {title:'مقایسه', cls:'ok', formula:`SD تجربی = ${sdOfMeans.toFixed(4)} vs نظری = ${theoreticalSE.toFixed(4)}`}
+      ]);
+    }
+    function draw(progress = 1){
+      if(!simData) return;
+      const { lo, hi, bins, counts, meanOfMeans, sdOfMeans } = simData;
+      const maxC = Math.max(...counts, 1);
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress);
+      const padL = 50, padB = 40, plotW = W - 70, plotH = H - 60;
+      counts.forEach((c, i) => {
+        const h = (c/maxC)*plotH * progress;
+        ctx.fillStyle = colors.ac + 'cc';
+        ctx.fillRect(padL + i*(plotW/bins), H - padB - h, plotW/bins - 1, h);
+      });
+      const curveProgress = Math.max(0, (progress - 0.4)/0.6);
+      if(curveProgress > 0){
+        ctx.strokeStyle = colors.ac3; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        const maxDensity = normPDF(meanOfMeans, meanOfMeans, sdOfMeans);
+        const stopX = plotW * curveProgress;
+        for(let px=0; px<=stopX; px++){
+          const xval = lo + (px/plotW)*(hi - lo);
+          const y = H - padB - (normPDF(xval, meanOfMeans, sdOfMeans)/maxDensity)*plotH*0.95;
+          px ? ctx.lineTo(padL + px, y) : ctx.moveTo(padL + px, y);
+        }
+        ctx.stroke();
+      }
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#clt-run').onclick = () => { regenerate(); cv._redraw(); };
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(() => { regenerate(); cv._redrawInstant(); }, 200)));
+    regenerate();
+    animateCanvas(cv, draw, 750);
+  }
+
+  /* ============================== Tool: Histogram ============================== */
+  function toolHist(el){
+    el.innerHTML = `<h2>📊 هیستوگرام ساده</h2><p class="lead">برای آمار جامع، از ابزار «آمار توصیفی جامع» استفاده کنید.</p>
+      <div class="ctrl"><label>داده‌ها</label><textarea id="h-data">12,15,11,18,14,16,13,15,17,14,19,20,13,12,16,18,15,14,17,13,22,25,21,19,20</textarea></div>
+      <div class="ctrl-grid">${rangeInput('h-bins','کلاس‌ها',3,15,1,7)}</div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="340"></canvas></div>
+      <div class="results" id="h-res"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 340);
+    const parse = () => el.querySelector('#h-data').value.split(/[\s,;]+/).map(s => parseFloat(s)).filter(Number.isFinite);
+    let cached = null;
+    function compute(){
+      const data = parse();
+      const bins = clamp(Math.round(+el.querySelector('#h-bins').value), 2, 20);
+      syncOutput(el,'h-bins',bins);
+      if(!data.length){ cached = null; return; }
+      const sorted = [...data].sort((a,b) => a-b), n = sorted.length;
+      const mean = sorted.reduce((s,v) => s+v, 0)/n;
+      const sd = Math.sqrt(sorted.reduce((s,v) => s + (v-mean)**2, 0)/(n-1 || 1));
+      const median = n % 2 ? sorted[(n-1)/2] : (sorted[n/2-1] + sorted[n/2])/2;
+      const lo = sorted[0], hi = sorted[n-1], binW = (hi - lo)/bins || 1;
+      const counts = new Array(bins).fill(0);
+      sorted.forEach(v => {
+        let idx = Math.floor((v - lo)/binW);
+        if(idx >= bins) idx = bins-1;
+        if(idx < 0) idx = 0;
+        counts[idx]++;
+      });
+      cached = { n, mean, sd, median, lo, hi, bins, binW, counts };
+      el.querySelector('#h-res').innerHTML = resultCards([
+        ['n', n], ['میانگین', fmt(mean,3)],
+        ['میانه', fmt(median,3)], ['s', fmt(sd,3)]
+      ]);
+    }
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      if(!cached) return;
+      const { lo, bins, binW, counts } = cached;
+      const maxC = Math.max(...counts, 1);
+      const padL = 50, padT = 30, padB = 50, plotW = W - 70, plotH = H - padT - padB;
+      const cw = plotW/bins;
+      counts.forEach((v, i) => {
+        const barH = (v/maxC)*plotH * progress;
+        ctx.fillStyle = colors.ac + 'cc';
+        ctx.fillRect(padL + i*cw + 1, padT + plotH - barH, cw-2, barH);
+      });
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#h-data').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 300));
+    el.querySelector('#h-bins').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 60));
+    compute();
+    animateCanvas(cv, draw, 600);
+  }
+
+  /* ============================== Tool: Box ============================== */
+  function toolBox(el){
+    el.innerHTML = `<h2>📦 نمودار جعبه‌ای ساده</h2><p class="lead">چارک‌ها، دامنه و پرت‌ها.</p>
+      <div class="ctrl"><label>داده‌ها</label><textarea id="x-data">12,15,11,18,14,16,13,15,17,14,19,20,13,12,16,45,22,25,21,19,20,8,5</textarea></div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="280"></canvas></div>
+      <div class="results" id="x-res"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 280);
+    const parse = () => el.querySelector('#x-data').value.split(/[\s,;]+/).map(s => parseFloat(s)).filter(Number.isFinite);
+    function quantile(arr, q){
+      if(!arr.length) return NaN;
+      const pos = (arr.length - 1) * q;
+      const base = Math.floor(pos), rest = pos - base;
+      return arr[base + 1] !== undefined ? arr[base] + rest*(arr[base+1] - arr[base]) : arr[base];
+    }
+    let cached = null;
+    function compute(){
+      const data = parse().sort((a,b) => a-b);
+      if(data.length < 4){ cached = null; return; }
+      const n = data.length;
+      const min = data[0], max = data[n-1];
+      const q1 = quantile(data, 0.25), q2 = quantile(data, 0.5), q3 = quantile(data, 0.75);
+      const iqr = q3 - q1;
+      const lowFence = q1 - 1.5*iqr, highFence = q3 + 1.5*iqr;
+      const outliers = data.filter(v => v < lowFence || v > highFence);
+      cached = { n, min, max, q1, q2, q3, iqr, outliers };
+      el.querySelector('#x-res').innerHTML = resultCards([
+        ['Q1', fmt(q1,2)], ['میانه', fmt(q2,2)], ['Q3', fmt(q3,2)],
+        ['IQR', fmt(iqr,3)], ['پرت‌ها', outliers.length]
+      ]);
+    }
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      if(!cached){ drawGrid(ctx, W, H, 40, colors); drawAxes(ctx, W, H, colors); return; }
+      const { min, max, q1, q2, q3, outliers } = cached;
+      const pad = 60;
+      const xMin = min - (max - min)*0.05, xMax = max + (max - min)*0.05;
+      const X = v => pad + (v - xMin)/(xMax - xMin)*(W - 2*pad);
+      const cy = H/2, boxH = 70;
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      const q1p = q2 + (q1 - q2) * progress;
+      const q3p = q2 + (q3 - q2) * progress;
+      const boxHp = boxH * progress;
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(X(min), cy); ctx.lineTo(X(q1p), cy);
+      ctx.moveTo(X(q3p), cy); ctx.lineTo(X(max), cy);
+      ctx.stroke();
+      ctx.fillStyle = colors.ac + '44';
+      ctx.fillRect(X(q1p), cy - boxHp/2, X(q3p) - X(q1p), boxHp);
+      ctx.strokeRect(X(q1p), cy - boxHp/2, X(q3p) - X(q1p), boxHp);
+      ctx.strokeStyle = colors.ac3; ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(X(q2), cy - boxHp/2); ctx.lineTo(X(q2), cy + boxHp/2);
+      ctx.stroke();
+      outliers.forEach(v => {
+        ctx.fillStyle = colors.ac3;
+        ctx.beginPath(); ctx.arc(X(v), cy, 5, 0, Math.PI*2); ctx.fill();
+      });
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#x-data').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 300));
+    compute();
+    animateCanvas(cv, draw, 600);
+  }
+
+  /* ============================== Tool: Regression ============================== */
+  function toolReg(el){
+    el.innerHTML = `<h2>📈 رگرسیون خطی</h2><p class="lead">خط برازش و ضریب تعیین R².</p>
+      <div class="ctrl"><label>داده‌ها (x, y)</label><textarea id="r-data">1,45
+2,55
+3,62
+4,75
+5,82
+6,88
+7,95</textarea></div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="400"></canvas></div>
+      <div class="results" id="r-res"></div>
+      <div id="r-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 400);
+    const parse = () => el.querySelector('#r-data').value.split(/\n+/).map(ln => {
+      const p = ln.split(/[\s,;]+/).map(s => parseFloat(s)).filter(Number.isFinite);
+      return p.length >= 2 ? [p[0], p[1]] : null;
+    }).filter(Boolean);
+    let cached = null;
+    function compute(){
+      const pts = parse();
+      if(pts.length < 2){ cached = null; return; }
+      const n = pts.length;
+      let sx=0, sy=0, sxy=0, sxx=0, syy=0;
+      pts.forEach(([x,y]) => { sx += x; sy += y; sxy += x*y; sxx += x*x; syy += y*y; });
+      const denom = n*sxx - sx*sx;
+      const slope = denom === 0 ? 0 : (n*sxy - sx*sy)/denom;
+      const intercept = (sy - slope*sx)/n;
+      const rDenom = Math.sqrt((n*sxx - sx*sx) * (n*syy - sy*sy));
+      const r = rDenom === 0 ? 0 : (n*sxy - sx*sy)/rDenom;
+      const r2 = r*r;
+      const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+      let xMin = Math.min(...xs), xMax = Math.max(...xs);
+      let yMin = Math.min(...ys), yMax = Math.max(...ys);
+      const xSpan = xMax - xMin || 1, ySpan = yMax - yMin || 1;
+      xMin -= xSpan*0.1; xMax += xSpan*0.1;
+      yMin -= ySpan*0.1; yMax += ySpan*0.15;
+      cached = { pts, slope, intercept, r, r2, xMin, xMax, yMin, yMax, n, sx, sy, sxy, sxx, syy };
+      el.querySelector('#r-res').innerHTML = resultCards([
+        ['a (شیب)', fmt(slope,4)],
+        ['b (عرض)', fmt(intercept,4)],
+        ['r', fmt(r,4)],
+        ['R²', fmt(r2,4)]
+      ]);
+      el.querySelector('#r-walk').innerHTML = stepWalk([
+        {title:'Σ‌های کمکی', formula:`Σx = ${sx.toFixed(2)} , Σy = ${sy.toFixed(2)} , Σxy = ${sxy.toFixed(2)} , Σx² = ${sxx.toFixed(2)}`},
+        {title:'فرمول شیب', cls:'hl', formula:`a = (n·Σxy − Σx·Σy) / (n·Σx² − (Σx)²)`},
+        {title:'جایگذاری شیب', formula:`a = ${slope.toFixed(6)}`},
+        {title:'عرض', cls:'hl', formula:`b = ȳ − a·x̄ = ${intercept.toFixed(6)}`},
+        {title:'خط برازش', cls:'ok', formula:`ŷ = ${slope.toFixed(4)}·x + ${intercept.toFixed(4)}`},
+        {title:'R²', cls:'ok', formula:`R² = ${r2.toFixed(6)} → ${(r2*100).toFixed(2)}٪`}
+      ]);
+    }
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      if(!cached) return;
+      const { pts, slope, intercept, xMin, xMax, yMin, yMax } = cached;
+      const padL = 60, padR = 30, padT = 30, padB = 50;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const X = v => padL + ((v - xMin)/(xMax - xMin))*plotW;
+      const Y = v => padT + plotH - ((v - yMin)/(yMax - yMin))*plotH;
+      ctx.strokeStyle = colors.ac3; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const lineEnd = xMin + (xMax - xMin) * progress;
+      ctx.moveTo(X(xMin), Y(slope*xMin + intercept));
+      ctx.lineTo(X(lineEnd), Y(slope*lineEnd + intercept));
+      ctx.stroke();
+      pts.forEach(([x,y]) => {
+        ctx.fillStyle = colors.ac;
+        ctx.beginPath(); ctx.arc(X(x), Y(y), 5, 0, Math.PI*2); ctx.fill();
+      });
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#r-data').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 300));
+    compute();
+    animateCanvas(cv, draw, 700);
+  }
+
+  /* ============================== Tool: QQ ============================== */
+  function toolQQ(el){
+    el.innerHTML = `<h2>📉 QQ-plot</h2><p class="lead">مقایسه چندک‌های نمونه با نرمال.</p>
+      <div class="ctrl"><label>داده‌ها</label><textarea id="qq-data">12,15,11,18,14,16,13,15,17,14,19,20,13,12,16,18,15,14,17,13,22,25,21,19,20,17,14,16,15,18</textarea></div>
+      <div class="tool-canvas-wrap"><canvas data-w="700" data-h="480"></canvas></div>
+      <div class="results" id="qq-res"></div>
+      <div id="qq-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 700, 480);
+    const parse = () => el.querySelector('#qq-data').value.split(/[\s,;]+/).map(s => parseFloat(s)).filter(Number.isFinite);
+    let cached = null;
+    function compute(){
+      const data = parse();
+      if(data.length < 5){ cached = null; return; }
+      const sorted = [...data].sort((a,b) => a-b);
+      const n = sorted.length;
+      const mean = sorted.reduce((s,v) => s+v, 0)/n;
+      const sd = Math.sqrt(sorted.reduce((s,v) => s + (v-mean)**2, 0)/(n-1)) || 1;
+      const theoretical = sorted.map((_, i) => normInv((i + 0.5)/n));
+      const observed = sorted.map(v => (v - mean)/sd);
+      const points = theoretical.map((t, i) => [t, observed[i]]);
+      let sx=0, sy=0, sxy=0, sxx=0, syy=0;
+      points.forEach(([x,y]) => { sx += x; sy += y; sxy += x*y; sxx += x*x; syy += y*y; });
+      const num = n*sxy - sx*sy;
+      const den = Math.sqrt((n*sxx - sx*sx)*(n*syy - sy*sy));
+      const r = den === 0 ? 0 : num/den;
+      const xMin = Math.min(...theoretical), xMax = Math.max(...theoretical);
+      const yMin = Math.min(...observed), yMax = Math.max(...observed);
+      cached = { points, n, mean, sd, r, xMin, xMax, yMin, yMax };
+      el.querySelector('#qq-res').innerHTML = resultCards([
+        ['n', n], ['r', fmt(r,4)],
+        ['میانگین', fmt(mean,3)], ['s', fmt(sd,3)],
+        ['نتیجه', r > 0.95 ? 'نرمال' : 'انحراف از نرمال']
+      ]);
+      el.querySelector('#qq-walk').innerHTML = stepWalk([
+        {title:'استانداردسازی', formula:`zᵢ = (xᵢ − ${mean.toFixed(3)}) / ${sd.toFixed(3)}`, cls:'hl'},
+        {title:'چندک نظری', formula:`qᵢ = Φ⁻¹((i−0.5)/n)`},
+        {title:'همبستگی', cls:'ok', formula:`r = ${r.toFixed(6)}`}
+      ]);
+    }
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      if(!cached) return;
+      const { points, xMin, xMax, yMin, yMax } = cached;
+      const padL = 60, padR = 30, padT = 30, padB = 50;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const xSpan = xMax - xMin || 1, ySpan = yMax - yMin || 1;
+      const X = v => padL + ((v - xMin)/xSpan)*plotW;
+      const Y = v => padT + plotH - ((v - yMin)/ySpan)*plotH;
+      const refMin = Math.min(xMin, yMin), refMax = Math.max(xMax, yMax);
+      ctx.strokeStyle = colors.ac3; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+      ctx.beginPath();
+      ctx.moveTo(X(refMin), Y(refMin)); ctx.lineTo(X(refMax), Y(refMax));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      points.forEach(([x, y]) => {
+        ctx.fillStyle = colors.ac;
+        ctx.beginPath(); ctx.arc(X(x), Y(y), 4.5, 0, Math.PI*2); ctx.fill();
+      });
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelector('#qq-data').addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 300));
+    compute();
+    animateCanvas(cv, draw, 700);
+  }
+
+  /* ============================== Tool: CI ============================== */
+  function toolCI(el){
+    el.innerHTML = `<h2>🎯 فاصله اطمینان</h2><p class="lead">کران‌های اطمینان با Z و t.</p>
+      <div class="ctrl-grid">
+        ${selectInput('ci-type','نوع',[['z','Z'],['t','t']])}
+        ${numberInput('ci-xbar','x̄',54,0.1)}
+        ${numberInput('ci-s','s یا σ',10,0.1)}
+        ${numberInput('ci-n','n',25,1)}
+        ${numberInput('ci-alpha','α',0.05,0.01)}
+      </div>
+      <div class="tool-canvas-wrap"><canvas data-w="820" data-h="220"></canvas></div>
+      <div class="results" id="ci-res"></div>
+      <div id="ci-walk"></div>`;
+    const cv = el.querySelector('canvas');
+    const { ctx, W, H } = setupHiDPICanvas(cv, 820, 220);
+    const get = id => +el.querySelector('#'+id).value;
+    let cached = null;
+    function compute(){
+      const type = el.querySelector('#ci-type').value;
+      const xbar = get('ci-xbar');
+      const s = Math.max(0.001, get('ci-s'));
+      const n = Math.max(2, Math.round(get('ci-n')));
+      const alpha = clamp(get('ci-alpha'), 0.001, 0.5);
+      const se = s/Math.sqrt(n);
+      const crit = type === 'z' ? normInv(1 - alpha/2) : tCrit(n-1, alpha);
+      const margin = crit*se, lo = xbar - margin, hi = xbar + margin;
+      cached = { type, xbar, s, n, alpha, crit, margin, lo, hi, se };
+      el.querySelector('#ci-res').innerHTML = resultCards([
+        ['مقدار بحرانی', fmt(crit,4)],
+        ['حاشیه خطا', fmt(margin,4)],
+        ['کران پایین', fmt(lo,4)],
+        ['کران بالا', fmt(hi,4)],
+        ['اطمینان', ((1-alpha)*100).toFixed(1)+'%']
+      ]);
+      el.querySelector('#ci-walk').innerHTML = stepWalk([
+        {title:'فرمول', cls:'hl', formula: type === 'z' ? `CI = x̄ ± z·σ/√n` : `CI = x̄ ± t·s/√n`},
+        {title:'SE', formula:`${s}/√${n} = ${se.toFixed(6)}`},
+        {title:'ME', formula:`${crit.toFixed(4)} × ${se.toFixed(6)} = ${margin.toFixed(6)}`},
+        {title:'CI', cls:'ok', formula:`[${lo.toFixed(4)} , ${hi.toFixed(4)}]`}
+      ]);
+    }
+    function draw(progress = 1){
+      const colors = themeColors();
+      ctx.clearRect(0,0,W,H);
+      drawGrid(ctx, W, H, 40, colors, progress); drawAxes(ctx, W, H, colors);
+      if(!cached) return;
+      const { xbar, margin, lo, hi } = cached;
+      const center = W/2;
+      const span = Math.max(margin*4, 1e-6);
+      const X = v => center + ((v - xbar)/span)*W*0.5;
+      ctx.strokeStyle = colors.ac; ctx.lineWidth = 6; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(X(lo), H - 60); ctx.lineTo(X(hi), H - 60); ctx.stroke();
+      ctx.fillStyle = colors.ac3;
+      ctx.beginPath(); ctx.arc(X(xbar), H - 60, 8, 0, Math.PI*2); ctx.fill();
+    }
+    bindAnimatedDraw(cv, draw);
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(() => { compute(); cv._redrawInstant(); }, 60)));
+    compute();
+    animateCanvas(cv, draw, 600);
+  }
+
+  /* ============================== Tool: Hypothesis ============================== */
+  function toolHypo(el){
+    el.innerHTML = `<h2>⚖️ آزمون فرض Z</h2><p class="lead">محاسبه Z و p-value.</p>
+      <div class="ctrl-grid">
+        ${numberInput('hy-mu0','μ₀',50,0.1)}
+        ${numberInput('hy-sigma','σ',10,0.1)}
+        ${numberInput('hy-xbar','x̄',54,0.1)}
+        ${numberInput('hy-n','n',25,1)}
+        ${selectInput('hy-alt','فرض مقابل',[['two','دوطرفه'],['lt','چپ‌طرفه'],['gt','راست‌طرفه']])}
+        ${numberInput('hy-alpha','α',0.05,0.01)}
+      </div>
+      <div class="results" id="hy-res"></div>
+      <div id="hy-walk"></div>`;
+    const get = id => +el.querySelector('#'+id).value;
+    function compute(){
+      const mu0 = get('hy-mu0');
+      const sigma = Math.max(1e-6, get('hy-sigma'));
+      const xbar = get('hy-xbar');
+      const n = Math.max(1, Math.round(get('hy-n')));
+      const alpha = clamp(get('hy-alpha'), 0.0001, 0.5);
+      const alt = el.querySelector('#hy-alt').value;
+      const se = sigma/Math.sqrt(n);
+      const z = (xbar - mu0)/se;
+      let pValue;
+      if(alt === 'two') pValue = 2*(1 - normCDF(Math.abs(z)));
+      else if(alt === 'lt') pValue = normCDF(z);
+      else pValue = 1 - normCDF(z);
+      const reject = pValue < alpha;
+      const altText = alt === 'two' ? '≠' : alt === 'lt' ? '<' : '>';
+      el.querySelector('#hy-res').innerHTML = resultCards([
+        ['Z', fmt(z,4)], ['p-value', fmt(pValue,6)],
+        ['α', alpha], ['نتیجه', reject ? 'رد H₀ ✋' : 'عدم رد H₀ ✓']
+      ]);
+      el.querySelector('#hy-walk').innerHTML = stepWalk([
+        {title:'فرضیه‌ها', cls:'hl', formula:`H₀: μ = ${mu0}   vs   H₁: μ ${altText} ${mu0}`},
+        {title:'SE', formula:`${sigma}/√${n} = ${se.toFixed(6)}`},
+        {title:'Z', cls:'hl', formula:`z = (${xbar} − ${mu0}) / ${se.toFixed(4)} = ${z.toFixed(6)}`},
+        {title:'p-value', cls:'hl', formula:`p = ${pValue.toFixed(6)}`},
+        {title:'تصمیم', cls:'ok', formula:`p ${reject ? '<' : '≥'} α → ${reject ? 'رد H₀' : 'عدم رد H₀'}`}
+      ]);
+    }
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(compute, 60)));
+    compute();
+  }
+
+  /* ============================== Tool: Pcalc ============================== */
+  function toolPcalc(el){
+    el.innerHTML = `<h2>🧮 محاسبه‌گر احتمال</h2><p class="lead">نرمال و دوجمله‌ای.</p>
+      <div class="ctrl-grid">
+        ${selectInput('pc-kind','توزیع',[['normal','نرمال'],['binom','دوجمله‌ای']])}
+        ${numberInput('pc-x','x یا k',1.96,0.01)}
+        ${numberInput('pc-n','n (دوجمله‌ای)',10,1)}
+        ${numberInput('pc-p','p (دوجمله‌ای)',0.5,0.01)}
+      </div>
+      <div class="results" id="pc-res"></div>
+      <div id="pc-walk"></div>`;
+    function compute(){
+      const kind = el.querySelector('#pc-kind').value;
+      const x = +el.querySelector('#pc-x').value;
+      if(kind === 'normal'){
+        const pLess = normCDF(x);
+        el.querySelector('#pc-res').innerHTML = resultCards([
+          ['P(Z ≤ x)', fmt(pLess,6)],
+          ['P(Z > x)', fmt(1 - pLess,6)],
+          ['درصد', fmt(pLess*100,2)+'%']
+        ]);
+        el.querySelector('#pc-walk').innerHTML = stepWalk([
+          {title:'فرمول', cls:'hl', formula:`Φ(z) = (1/√(2π)) ∫₋∞^z e^(−t²/2) dt`},
+          {title:'جایگذاری', formula:`z = ${x}`},
+          {title:'نتیجه', cls:'ok', formula:`Φ(${x}) ≈ ${pLess.toFixed(6)}`}
+        ]);
+      } else {
+        const n = Math.max(1, Math.round(+el.querySelector('#pc-n').value));
+        const p = clamp(+el.querySelector('#pc-p').value, 0.001, 0.999);
+        const k = clamp(Math.round(x), 0, n);
+        const pExact = binomPMF(n,k,p);
+        let pLess = 0; for(let i=0;i<=k;i++) pLess += binomPMF(n,i,p);
+        el.querySelector('#pc-res').innerHTML = resultCards([
+          [`P(X = ${k})`, fmt(pExact,6)],
+          [`P(X ≤ ${k})`, fmt(pLess,6)],
+          ['μ = np', fmt(n*p,3)]
+        ]);
+        el.querySelector('#pc-walk').innerHTML = stepWalk([
+          {title:'فرمول', cls:'hl', formula:`P(X=k) = C(n,k) · pᵏ · (1−p)ⁿ⁻ᵏ`},
+          {title:'جایگذاری', formula:`n = ${n} , k = ${k} , p = ${p}`},
+          {title:'نتیجه', cls:'ok', formula:`P(X=${k}) = ${pExact.toFixed(6)}`}
+        ]);
+      }
+    }
+    el.querySelectorAll('input,select').forEach(i => i.addEventListener('input', debounce(compute, 60)));
+    compute();
+  }
+
+  /* ============================== Tool: Combinatorics ============================== */
+  function toolCombin(el){
+    el.innerHTML = `<h2>🔢 ترکیبیات</h2><p class="lead">فاکتوریل، جایگشت، ترکیب.</p>
+      <div class="ctrl-grid">
+        ${numberInput('cb-n','n',10,1)}
+        ${numberInput('cb-k','k',3,1)}
+      </div>
+      <div class="results" id="cb-res"></div>
+      <div id="cb-walk"></div>`;
+    function compute(){
+      const n = Math.max(0, Math.round(+el.querySelector('#cb-n').value));
+      const k = Math.max(0, Math.round(+el.querySelector('#cb-k').value));
+      const P = perm(n,k), C = comb(n,k), fn = factorial(n);
+      el.querySelector('#cb-res').innerHTML = resultCards([
+        ['n!', Number.isFinite(fn) ? fn.toLocaleString() : '∞'],
+        ['P(n,k)', Number.isFinite(P) ? P.toLocaleString() : '—'],
+        ['C(n,k)', Number.isFinite(C) ? C.toLocaleString() : '—']
+      ]);
+      el.querySelector('#cb-walk').innerHTML = stepWalk([
+        {title:'فاکتوریل', cls:'hl', formula:`n! = n × (n−1) × ... × 1`},
+        {title:'n!', formula:`${n}! = ${Number.isFinite(fn) ? fn.toLocaleString() : '—'}`},
+        {title:'جایگشت', cls:'hl', formula:`P(n,k) = n!/(n−k)!`},
+        {title:'P', formula:`P(${n},${k}) = ${Number.isFinite(P) ? P.toLocaleString() : '—'}`},
+        {title:'ترکیب', cls:'hl', formula:`C(n,k) = n!/[k!(n−k)!]`},
+        {title:'C', cls:'ok', formula:`C(${n},${k}) = ${Number.isFinite(C) ? C.toLocaleString() : '—'}`}
+      ]);
+    }
+    el.querySelectorAll('input').forEach(i => i.addEventListener('input', debounce(compute, 60)));
+    compute();
+  }
+
+  /* ============================== Initial paint ============================== */
+  MathKeyboard.init();
+  renderNav();
+  renderTheory();
+
+  // Document fingerprint (do not remove)
+  window.__3INA3_DOC__ = { id: __DOC_ID__, owner: __OWNER__, issued: __ISSUED__, src: __GITHUB__ };
+
+});
+</script>
+
+<footer class="footer-copy">
+  <strong>© 2026 Sina Shojaeian (3INA3) — All Rights Reserved</strong><br>
+  این فایل فقط برای استفاده شخصی و آموزشی از منبع رسمی گیت‌هاب (github.com/3INA3) منتشر شده است.<br>
+  هرگونه کپی، فروش، بازنشر، ویرایش یا استفاده تجاری بدون مجوز کتبی ممنوع و قابل پیگرد است.<br>
+  Source of truth: <a href="https://github.com/3INA3" style="color:var(--ac)">https://github.com/3INA3</a><br>
+  <span style="direction:ltr;font-family:ui-monospace,monospace;font-size:.66rem;opacity:.85">Digital Document ID: 3INA3-STATPROB-20261018-38D7493C556E29AB · Issued 2026-10-18 03:02:28 UTC · © 3INA3</span>
+</footer>
+
+</body>
+</html>
