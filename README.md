@@ -13,9 +13,14 @@
 <!-- Typing Animation -->
 <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=700&size=26&duration=2800&pause=900&color=8A2BE2,00D8FF,FF00AA,43C6AC&center=true&vCenter=true&width=850&lines=📊+مرجع+جامع+آمار+و+احتمال+مهندسی;🌋+نسخه+سه‌بعدی+پیشرفته;🧪+۲۲+ابزار+تعاملی+زنده;⌨️+کیبورد+ریاضی+هوشمند" alt="Typing SVG" />
 
-<br/>
+<br/><br/>
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-View_Online-8b5cf6?style=for-the-badge)](https://3ina3.github.io/stats-probability-3d/)
+### 🚀 برای مشاهده نسخه زنده (Live Demo) اینجا کلیک کنید:
+
+[![برای دمو اینجا کلیک کنید](https://img.shields.io/badge/🌐_برای_دمو_اینجا_کلیک_کنید-Live_Demo-8b5cf6?style=for-the-badge&logo=github)](https://3ina3.github.io/stats-probability-3d/)
+
+<br>
+
 [![Language](https://img.shields.io/badge/زبان-فارسی_RTL-22d3ee?style=for-the-badge)](#)
 [![Three.js](https://img.shields.io/badge/Three.js-3D-f472b6?style=for-the-badge)](#)
 [![Math.js](https://img.shields.io/badge/Math.js-Engine-10b981?style=for-the-badge)](#)
